@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a4fa8">
+<meta name="description" content="Platform kolaborasi kreator &amp; brand lokal Indonesia">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="COLLAB MATCH">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="CollabMatch">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Collab Match Creator">
+<meta property="og:description" content="Platform kolaborasi kreator & brand lokal Indonesia">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/icons/icon-512.png">
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="/manifest.json">
+
+<!-- Apple Touch Icon -->
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-96.png">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="style.css">
+
+<title>COLLAB MATCH CREATOR</title>
+</head>
+<body>
+
+<!-- PWA: Install Banner (muncul saat belum diinstall) -->
+<div class="pwa-install-banner" id="pwaInstallBanner">
+  <span class="pwa-install-icon">📲</span>
+  <div class="pwa-install-text">
+    <div class="pwa-install-title">Install Collab Match</div>
+    <div class="pwa-install-sub">Buka lebih cepat langsung dari home screen</div>
+  </div>
+  <button class="pwa-install-btn" onclick="CMK.InstallPrompt.prompt()">Install</button>
+  <button class="pwa-install-dismiss" onclick="CMK.InstallPrompt.dismiss()" aria-label="Tutup">✕</button>
+</div>
+
+<!-- PWA: Update Banner (muncul saat ada versi baru) -->
+<div class="update-banner" id="updateBanner">
+  <span>🎉 Versi baru tersedia!</span>
+  <div class="update-banner-text">Perbarui untuk fitur terbaru.</div>
+  <button class="update-banner-btn" id="updateBannerBtn">Perbarui</button>
+</div>
+
+<!-- Hidden file input for photo upload -->
+<input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="onPhotoSelected(event)">
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- CHAT VIEW -->
+<div class="chat-view" id="chatView">
+  <div class="chat-header">
+    <button class="btn-back" onclick="closeChat()">&#8249;</button>
+    <div class="chat-peer-info">
+      <div class="chat-peer-name" id="chatPeerName">-</div>
+      <div class="chat-peer-status">Online sekarang</div>
+      <div class="chat-peer-context" id="chatPeerContext"></div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Tulis pesan..." onkeypress="onChatKey(event)">
+    <button class="btn-send" onclick="sendMsg()">&#9658;</button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="overlay" id="payOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Aktifkan Iklan Premium</div>
+    <div class="sheet-sub">Iklan tayang 14 hari — ratusan kreator lokal menemukanmu</div>
+    <div class="pay-amount-box">
+      <div class="pay-amount">Rp 99.000</div>
+      <div class="pay-amount-sub">Sekali bayar · 14 hari tayang · Badge Premium aktif</div>
+    </div>
+    <div class="pay-methods">
+      <div class="pay-opt sel" onclick="selPay(this,'transfer')"><div class="pay-opt-name">Transfer Bank</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'qris')"><div class="pay-opt-name">QRIS</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'dana')"><div class="pay-opt-name">DANA</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'gopay')"><div class="pay-opt-name">GoPay</div></div>
+    </div>
+    <div class="bank-box" id="bankBox">
+      <p>Transfer ke BCA atas nama <strong>PT Collab Match Creator</strong></p>
+      <div class="bank-num">1234 5678 90</div>
+      <div class="bank-note">Nominal tepat Rp 99.000 — konfirmasi otomatis dalam 1x24 jam</div>
+    </div>
+    <button class="btn-confirm" onclick="confirmPay()">Konfirmasi Sudah Bayar</button>
+    <button class="btn-cancel-sheet" onclick="closePayOverlay()">Batalkan</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL (CREATOR) -->
+<div class="overlay" id="editOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Edit Profil</div>
+    <div class="sheet-sub">Lengkapi profil agar mudah ditemukan brand</div>
+    <div class="form-group">
+      <label class="form-label">Bio Singkat</label>
+      <textarea class="form-input" id="editBio" rows="3" placeholder="Ceritakan keunikanmu sebagai kreator..." style="resize:none"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Niche Konten</label>
+      <select class="form-input" id="editNiche">
+        <option>Beauty &amp; Lifestyle</option><option>Food &amp; Culinary</option>
+        <option>Fashion</option><option>Travel</option>
+        <option>Tech &amp; Gadget</option><option>Gaming</option>
+        <option>Finance</option><option>Health &amp; Fitness</option>
+        <option>Parenting</option><option>Comedy &amp; Entertainment</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kota</label>
+      <input class="form-input" id="editCity" placeholder="Contoh: Solo, Jawa Tengah">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username Instagram</label>
+      <input class="form-input" id="editIG" placeholder="@username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username TikTok</label>
+      <input class="form-input" id="editTT" placeholder="@username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Total Followers (gabungan)</label>
+      <input class="form-input" id="editFollowers" type="number" placeholder="Contoh: 12500">
+    </div>
+    <button class="btn-confirm" onclick="saveProfile()">Simpan Profil</button>
+    <button class="btn-cancel-sheet" onclick="closeEdit()">Batal</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL (BRAND) -->
+<div class="overlay" id="editBrandOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Edit Profil Brand</div>
+    <div class="sheet-sub">Lengkapi info brand agar kreator lebih percaya</div>
+    <div class="form-group">
+      <label class="form-label">Nama Brand</label>
+      <input class="form-input" id="editBrandName" placeholder="Contoh: Kopi Nusantara">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kategori Bisnis</label>
+      <select class="form-input" id="editBrandCat">
+        <option>Kuliner &amp; F&amp;B</option><option>Beauty &amp; Skincare</option>
+        <option>Fashion</option><option>UMKM Lokal</option>
+        <option>Travel &amp; Hospitality</option><option>Tech &amp; Apps</option>
+        <option>Education</option><option>Health &amp; Wellness</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Lokasi Brand</label>
+      <input class="form-input" id="editBrandCity" placeholder="Contoh: Solo, Jawa Tengah">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Instagram Brand</label>
+      <input class="form-input" id="editBrandIG" placeholder="@namainstagram">
+    </div>
+    <div class="form-group">
+      <label class="form-label">TikTok Brand</label>
+      <input class="form-input" id="editBrandTT" placeholder="@namatiktok">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Website / Link Bio</label>
+      <input class="form-input" id="editBrandWeb" placeholder="https://website.com">
+    </div>
+    <button class="btn-confirm" onclick="saveBrandProfile()">Simpan Profil Brand</button>
+    <button class="btn-cancel-sheet" onclick="closeEditBrand()">Batal</button>
+  </div>
+</div>
+
+<!-- POST JOB MODAL -->
+<div class="overlay" id="postJobOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Pasang Iklan Kampanye</div>
+    <div class="sheet-sub">Kreator lokal siap menemukan lowonganmu dalam hitungan menit</div>
+    <div class="form-group">
+      <label class="form-label">Nama Kampanye / Produk</label>
+      <input class="form-input" id="jobTitle" placeholder="Contoh: Review Kopi Arabika Premium">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Deskripsi Briefing</label>
+      <textarea class="form-input" id="jobDesc" rows="3" placeholder="Format konten, tone, deliverable, dll." style="resize:none"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Niche Kreator yang Dicari</label>
+      <select class="form-input" id="jobNiche">
+        <option>Beauty &amp; Lifestyle</option><option>Food &amp; Culinary</option>
+        <option>Fashion</option><option>Travel</option>
+        <option>Tech &amp; Gadget</option><option>Gaming</option>
+        <option>Finance</option><option>Health &amp; Fitness</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Lokasi Target Kreator</label>
+      <input class="form-input" id="jobLocation" placeholder="Contoh: Solo, Semarang, Yogyakarta">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Budget Kolaborasi (Rp)</label>
+      <input class="form-input" id="jobBudget" type="number" placeholder="Contoh: 500000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kategori Bisnis</label>
+      <select class="form-input" id="jobCategory">
+        <option>Kuliner &amp; F&amp;B</option><option>Beauty &amp; Skincare</option>
+        <option>Fashion</option><option>UMKM Lokal</option>
+        <option>Travel &amp; Hospitality</option><option>Tech &amp; Apps</option>
+        <option>Education</option><option>Health &amp; Wellness</option>
+      </select>
+    </div>
+    <button class="btn-confirm" onclick="submitPost()">Pasang Iklan — Rp 99.000</button>
+    <button class="btn-cancel-sheet" onclick="closePostJob()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== EDIT FOTO PROFIL MODAL (BARU) ===== -->
+<div class="overlay" id="editPhotoOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Foto Profil</div>
+    <div class="sheet-sub">Pilih foto yang mewakili identitasmu</div>
+    <div class="photo-preview-wrap">
+      <div class="photo-preview-circle" id="photoPreviewCircle">?</div>
+      <button class="btn-pick-photo" onclick="document.getElementById('photoFileInput').click()">Pilih Foto dari Galeri</button>
+      <div class="photo-hint">Format JPG / PNG · Maks. 5 MB · Rasio 1:1 disarankan</div>
+    </div>
+    <button class="btn-confirm" id="btnSavePhoto" onclick="savePhoto()" disabled style="opacity:0.5">Simpan Foto Profil</button>
+    <button class="btn-cancel-sheet" id="btnRemovePhoto" onclick="removePhoto()" style="color:var(--red);display:none">Hapus Foto Profil</button>
+    <button class="btn-cancel-sheet" onclick="closeEditPhoto()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== EDIT NAMA AKUN MODAL (BARU) ===== -->
+<div class="overlay" id="editNameOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Ubah Nama Akun</div>
+    <div class="sheet-sub">Nama yang tampil di profil dan percakapanmu</div>
+    <div class="name-edit-info" id="nameEditInfo">
+      <!-- diisi oleh JS -->
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nama Baru</label>
+      <input class="form-input" id="editNameInput" placeholder="Nama lengkap kamu" maxlength="50">
+    </div>
+    <button class="btn-confirm" id="btnSaveName" onclick="saveName()">Simpan Nama</button>
+    <button class="btn-cancel-sheet" onclick="closeEditName()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== AUTH ===== -->
+<div id="authArea">
+  <!-- LOGIN -->
+  <div id="loginPage" class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-brand-name">Collab Match Creator</div>
+        <div class="auth-brand-sub">Platform kolaborasi kreator &amp; brand lokal Indonesia</div>
+      </div>
+      <div class="auth-heading">Masuk ke Akun</div>
+      <div class="auth-subheading">Selamat datang kembali</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="loginPw" placeholder="Min. 6 karakter">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <label style="font-size:13px;color:var(--gray-600);display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="rememberMe" style="accent-color:var(--blue-600)"> Ingat saya
+        </label>
+        <a href="#" style="font-size:13px;color:var(--blue-600);text-decoration:none;font-weight:600">Lupa password?</a>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Masuk Sekarang</button>
+      <div class="auth-switch">Belum punya akun? <a href="#" onclick="showReg()">Daftar Gratis</a></div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="regPage" class="auth-page" style="display:none">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-brand-name">Collab Match Creator</div>
+        <div class="auth-brand-sub">Mulai kolaborasi impianmu hari ini</div>
+      </div>
+      <div class="auth-heading">Buat Akun Baru</div>
+      <div class="auth-subheading">Gratis selamanya untuk kreator</div>
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input class="form-input" type="text" id="regName" placeholder="Nama kamu">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="regEmail" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="regPw" placeholder="Min. 6 karakter">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daftar Sebagai</label>
+        <div class="role-grid">
+          <div class="role-option selected" id="roleCreatorOpt" onclick="pickRole('creator')">
+            <div class="role-option-title">Konten Kreator</div>
+            <div class="role-option-desc">Micro-influencer, KOL</div>
+          </div>
+          <div class="role-option" id="roleBrandOpt" onclick="pickRole('brand')">
+            <div class="role-option-title">Brand / Bisnis</div>
+            <div class="role-option-desc">UMKM, Kafe, Agensi</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doRegister()">Buat Akun Gratis</button>
+      <div class="auth-switch">Sudah punya akun? <a href="#" onclick="showLogin()">Masuk</a></div>
+    </div>
+  </div>
+
+  <!-- REGISTER SUCCESS -->
+  <div id="regSuccessPage" class="reg-success-page">
+    <div class="success-card">
+      <div class="auth-brand" style="text-align:center">
+        <div class="auth-brand-name">Collab Match Creator</div>
+      </div>
+      <div class="success-icon">✓</div>
+      <div class="success-title">Akun Berhasil Dibuat!</div>
+      <div class="success-sub">Akunmu sudah siap. Silakan masuk dengan email dan password yang kamu daftarkan tadi.</div>
+      <div class="success-email-box" id="successEmail">email@kamu.com</div>
+      <button class="btn-primary" onclick="goToLoginAfterReg()">Masuk ke Akun Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app-wrapper" id="appWrapper">
+
+  <nav class="top-nav">
+    <div class="top-nav-brand" id="topNavBrand">Collab Match <span>Creator</span></div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="showTab('inbox')" id="inboxNavBtn" title="Pesan">
+        &#9993;
+        <div class="notif-dot" id="inboxDot" style="display:none"></div>
+      </button>
+      <div class="nav-avatar" id="navAv" onclick="showTab('profile')">K</div>
+    </div>
+  </nav>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" id="tabCollab" onclick="showTab('collab')">Open Collab</button>
+    <button class="tab-btn" id="tabJob"    onclick="showTab('job')">Job / Brand</button>
+    <button class="tab-btn" id="tabInbox"  onclick="showTab('inbox')">Pesan</button>
+    <button class="tab-btn" id="tabDash"   onclick="showTab('dash')">Dashboard</button>
+    <button class="tab-btn" id="tabProfile" onclick="showTab('profile')">Profil</button>
+  </div>
+
+  <div class="app-content">
+
+    <!-- OPEN COLLAB TAB -->
+    <div class="tab-section active" id="secCollab">
+      <div class="page-header">
+        <div class="page-header-title">Brand Open Collab</div>
+        <div class="page-header-sub">Brand-brand ini sedang membuka peluang kolaborasi</div>
+      </div>
+
+      <div class="search-bar-wrap">
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="collabSearchInput" placeholder="Cari brand, niche, atau lokasi..." oninput="onCollabSearch()">
+          </div>
+          <button class="btn-search" onclick="onCollabSearch()">Cari</button>
+        </div>
+        <div class="filter-chips" id="collabNicheChips"></div>
+      </div>
+      <div class="search-result-label" id="collabResultLabel" style="display:none"></div>
+      <div class="card-list" id="collabList"></div>
+    </div>
+
+    <!-- JOB TAB -->
+    <div class="tab-section" id="secJob">
+      <div class="page-header">
+        <div class="page-header-title">Lowongan Berbayar</div>
+        <div class="page-header-sub">Iklan kampanye dari brand — apply 1x tap</div>
+      </div>
+
+      <div class="search-bar-wrap">
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="jobSearchInput" placeholder="Cari brand, niche, atau lokasi..." oninput="onJobSearch()">
+          </div>
+          <button class="btn-search" onclick="onJobSearch()">Cari</button>
+        </div>
+        <div class="filter-chips" id="jobNicheChips"></div>
+      </div>
+      <div class="search-result-label" id="jobResultLabel" style="display:none"></div>
+      <div class="card-list" id="jobList"></div>
+    </div>
+
+    <!-- INBOX TAB -->
+    <div class="tab-section" id="secInbox">
+      <div class="page-header">
+        <div class="page-header-title">Pesan <span class="inbox-count" id="inboxCount">0</span></div>
+        <div class="page-header-sub" id="inboxSubtitle">Semua percakapan kolaborasi</div>
+      </div>
+      <div class="inbox-section" id="inboxList"></div>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-section" id="secDash">
+
+      <!-- Creator Dashboard -->
+      <div id="creatorDash">
+        <div class="page-header">
+          <div class="page-header-title">Dashboard Kreator</div>
+          <div class="page-header-sub">Pantau aktivitas kolaborasimu</div>
+        </div>
+
+        <div class="stats-grid" id="creatorStats" style="grid-template-columns:1fr 1fr 1fr 1fr">
+          <div class="stat-card">
+            <div class="stat-num" id="stTotal">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stReview" style="color:var(--blue-600)">0</div>
+            <div class="stat-label">Ditinjau</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stAccepted" style="color:var(--green)">0</div>
+            <div class="stat-label">Diterima</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stContacted" style="color:#d97706">0</div>
+            <div class="stat-label">Dihubungi</div>
+          </div>
+        </div>
+
+        <div class="status-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--blue-600)"></div>Ditinjau</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Diterima</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div>Dihubungi</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Tidak Lanjut</div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-block-title">Status Pengajuan</div>
+          <div class="status-filter-row" id="statusFilterRow">
+            <div class="status-chip active" onclick="filterStatus('all', this)">Semua</div>
+            <div class="status-chip" onclick="filterStatus('review', this)">Ditinjau</div>
+            <div class="status-chip" onclick="filterStatus('accepted', this)">Diterima</div>
+            <div class="status-chip" onclick="filterStatus('contacted', this)">Dihubungi</div>
+            <div class="status-chip" onclick="filterStatus('rejected', this)">Tidak Lanjut</div>
+          </div>
+          <div id="statusList"></div>
+        </div>
+      </div>
+
+      <!-- Brand Dashboard -->
+      <div id="brandDash" style="display:none">
+        <div class="page-header">
+          <div class="page-header-title">Dashboard Brand</div>
+          <div class="page-header-sub">Kelola kampanye dan pantau kreator</div>
+        </div>
+        <div class="brand-cta">
+          <div class="brand-cta-text">
+            <h4>Pasang Iklan Baru</h4>
+            <p>Jangkau ratusan kreator lokal siap kolaborasi — tayang 14 hari</p>
+          </div>
+          <button class="btn-cta" onclick="openPostJob()">Pasang Iklan</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num" id="stIklan">0</div><div class="stat-label">Iklan Aktif</div></div>
+          <div class="stat-card"><div class="stat-num" id="stPelamar">0</div><div class="stat-label">Pelamar</div></div>
+        </div>
+        <div class="section-block">
+          <div class="section-block-title">Kreator yang Melamar</div>
+          <div id="applicantList"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PROFILE TAB -->
+    <div class="tab-section" id="secProfile">
+      <div class="profile-section">
+        <div class="profile-hero-card">
+          <!-- Foto profil dengan tombol edit -->
+          <div class="profile-av-wrap" onclick="openEditPhoto()">
+            <div class="profile-av-xl" id="profileAv">K</div>
+            <div class="profile-av-cam">📷</div>
+          </div>
+          <!-- Nama dengan tombol edit inline -->
+          <div class="profile-name-row">
+            <div class="profile-name-xl" id="profileName">Pengguna</div>
+            <button class="btn-edit-name-inline" onclick="openEditName()" title="Ubah nama">✏️</button>
+          </div>
+          <div class="profile-role-pill" id="profileRole">Konten Kreator</div>
+        </div>
+
+        <!-- CREATOR INFO -->
+        <div class="info-card" id="creatorInfo">
+          <div class="info-card-title">Informasi Kreator</div>
+          <div class="info-row"><div class="info-key">Kota</div><div class="info-val" id="pCity">Belum diisi</div></div>
+          <div class="info-row"><div class="info-key">Niche</div><div class="info-val" id="pNiche">Belum diisi</div></div>
+          <div class="info-row"><div class="info-key">Total Followers</div><div class="info-val" id="pFollowers">0</div></div>
+          <div class="info-row"><div class="info-key">Instagram</div><div class="info-val" id="pIG">-</div></div>
+          <div class="info-row"><div class="info-key">TikTok</div><div class="info-val" id="pTT">-</div></div>
+          <button class="btn-edit" onclick="openEdit()">Edit Profil</button>
+        </div>
+
+        <!-- BRAND INFO -->
+        <div class="info-card" id="brandInfo" style="display:none">
+          <div class="info-card-title">Informasi Brand</div>
+          <div class="info-row"><div class="info-key">Nama Brand</div><div class="info-val" id="pBrandName">-</div></div>
+          <div class="info-row"><div class="info-key">Kategori</div><div class="info-val" id="pBrandCat">-</div></div>
+          <div class="info-row"><div class="info-key">Lokasi</div><div class="info-val" id="pBrandCity">-</div></div>
+          <div class="info-row"><div class="info-key">Instagram</div><div class="info-val" id="pBrandIG">-</div></div>
+          <div class="info-row"><div class="info-key">TikTok</div><div class="info-val" id="pBrandTT">-</div></div>
+          <div class="info-row"><div class="info-key">Website</div><div class="info-val" id="pBrandWeb">-</div></div>
+          <div class="info-row"><div class="info-key">Status Iklan</div><div class="info-val" id="pBrandStatus">Belum ada iklan aktif</div></div>
+          <button class="btn-edit" onclick="openEditBrand()">Edit Profil Brand</button>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Akun</div>
+          <div class="info-row"><div class="info-key">Email</div><div class="info-val" id="pEmail">-</div></div>
+          <div class="info-row"><div class="info-key">Member Sejak</div><div class="info-val" id="pSince">-</div></div>
+          <div id="settingsContainer" style="margin-top:12px;"></div>
+        <button class="btn-logout" onclick="doLogout()">Keluar dari Akun</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Scripts (urutan penting: settings.js dulu, lalu app.js) -->
+<script src="settings.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
