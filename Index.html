@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a4fa8">
+<meta name="description" content="Platform kolaborasi kreator & brand lokal Indonesia">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="COLLAB MATCH">
+<title>COLLAB MATCH CREATOR</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue-900: #0a2463;
+  --blue-800: #1a3a7c;
+  --blue-700: #1a4fa8;
+  --blue-600: #2563c8;
+  --blue-500: #3b82f6;
+  --blue-400: #60a5fa;
+  --blue-100: #dbeafe;
+  --blue-50:  #eff6ff;
+  --white:    #ffffff;
+  --gray-50:  #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-900: #0f172a;
+  --red:      #dc2626;
+  --green:    #059669;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+
+/* ===== AUTH ===== */
+.auth-page {
+  min-height: 100vh;
+  background: var(--blue-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 420px;
+  border: 1px solid var(--gray-200);
+}
+
+.auth-brand { margin-bottom: 28px; }
+.auth-brand-name { font-size: 16px; font-weight: 700; color: var(--blue-700); letter-spacing: 0.5px; text-transform: uppercase; }
+.auth-brand-sub  { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+.auth-heading    { font-size: 22px; font-weight: 600; color: var(--gray-900); margin-bottom: 4px; }
+.auth-subheading { font-size: 13px; color: var(--gray-400); margin-bottom: 24px; }
+
+.form-label {
+  display: block; font-size: 11px; font-weight: 600; color: var(--gray-600);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+
+.form-input {
+  border: 1px solid var(--gray-300); border-radius: 8px; padding: 10px 14px;
+  font-family: 'Inter', sans-serif; font-size: 14px; width: 100%; color: var(--gray-900);
+  background: var(--white); transition: border-color 0.15s; outline: none;
+}
+.form-input:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+.form-group { margin-bottom: 16px; }
+
+.role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+
+.role-option {
+  border: 1.5px solid var(--gray-200); border-radius: 8px; padding: 14px 12px;
+  cursor: pointer; transition: all 0.15s; background: var(--white);
+}
+.role-option:hover { border-color: var(--blue-400); background: var(--blue-50); }
+.role-option.selected { border-color: var(--blue-600); background: var(--blue-50); }
+.role-option-title { font-size: 13px; font-weight: 600; color: var(--gray-900); margin-bottom: 2px; }
+.role-option-desc  { font-size: 11px; color: var(--gray-400); }
+
+.btn-primary {
+  background: var(--blue-700); color: var(--white); border: none; border-radius: 8px;
+  padding: 12px 20px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+  cursor: pointer; width: 100%; transition: background 0.15s;
+}
+.btn-primary:hover { background: var(--blue-800); }
+
+.btn-secondary {
+  background: var(--white); color: var(--blue-700); border: 1.5px solid var(--blue-200, #bfdbfe);
+  border-radius: 8px; padding: 10px 20px; font-family: 'Inter', sans-serif; font-weight: 600;
+  font-size: 14px; cursor: pointer; width: 100%; transition: all 0.15s; margin-top: 8px;
+}
+.btn-secondary:hover { background: var(--blue-50); }
+
+.auth-switch { text-align: center; margin-top: 18px; font-size: 13px; color: var(--gray-400); }
+.auth-switch a { color: var(--blue-600); font-weight: 600; text-decoration: none; }
+
+/* ===== SUCCESS BANNER (after register) ===== */
+.reg-success-page {
+  min-height: 100vh;
+  background: var(--blue-900);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.reg-success-page.show { display: flex; }
+.success-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+.success-icon {
+  width: 64px; height: 64px;
+  background: #d1fae5;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+.success-title { font-size: 20px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+.success-sub   { font-size: 13px; color: var(--gray-600); line-height: 1.6; margin-bottom: 28px; }
+.success-email-box {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue-700);
+}
+
+/* ===== MAIN APP ===== */
+.app-wrapper { display: none; min-height: 100vh; flex-direction: column; }
+.app-wrapper.active { display: flex; }
+
+/* ===== TOP NAV ===== */
+.top-nav {
+  background: var(--blue-900); padding: 0 20px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--blue-800);
+}
+.top-nav-brand { font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: 0.8px; text-transform: uppercase; }
+.top-nav-brand span { color: var(--blue-400); }
+
+.nav-actions { display: flex; align-items: center; gap: 8px; }
+
+.nav-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px;
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--white); font-size: 15px; transition: background 0.15s; position: relative;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.14); }
+.notif-dot {
+  position: absolute; top: 5px; right: 5px; width: 7px; height: 7px;
+  background: var(--blue-400); border-radius: 50%; border: 1.5px solid var(--blue-900);
+}
+.nav-avatar {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--blue-600);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--white); cursor: pointer;
+  border: 1.5px solid rgba(255,255,255,0.2);
+  overflow: hidden;
+}
+.nav-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+/* ===== TAB NAV ===== */
+.tab-nav {
+  background: var(--white); border-bottom: 1px solid var(--gray-200);
+  display: flex; padding: 0 4px; position: sticky; top: 56px; z-index: 99;
+  overflow-x: auto;
+}
+.tab-btn {
+  flex: 1; min-width: 56px; padding: 14px 4px 12px; border: none; background: transparent;
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: var(--gray-400);
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
+}
+.tab-btn.active { color: var(--blue-700); border-bottom-color: var(--blue-700); }
+
+/* ===== CONTENT ===== */
+.app-content { flex: 1; overflow-y: auto; padding-bottom: 24px; }
+.tab-section { display: none; }
+.tab-section.active { display: block; }
+
+/* ===== PAGE HEADER ===== */
+.page-header { background: var(--white); padding: 20px; border-bottom: 1px solid var(--gray-200); }
+.page-header-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.page-header-sub   { font-size: 13px; color: var(--gray-400); margin-top: 2px; }
+
+/* ===== SEARCH BAR ===== */
+.search-bar-wrap {
+  background: var(--white);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.search-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.search-input-wrap { flex: 1; position: relative; }
+.search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; color: var(--gray-400); pointer-events: none;
+}
+.search-input {
+  width: 100%; border: 1px solid var(--gray-300); border-radius: 8px;
+  padding: 9px 12px 9px 32px; font-family: 'Inter', sans-serif; font-size: 13px;
+  color: var(--gray-900); outline: none; transition: border-color 0.15s;
+  background: var(--gray-50);
+}
+.search-input:focus { border-color: var(--blue-500); background: var(--white); box-shadow: 0 0 0 3px rgba(59,130,246,0.08); }
+.btn-search {
+  background: var(--blue-700); color: var(--white); border: none; border-radius: 8px;
+  padding: 9px 14px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px;
+  cursor: pointer; transition: background 0.15s; flex-shrink: 0;
+}
+.btn-search:hover { background: var(--blue-800); }
+
+.filter-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
+.filter-chip {
+  border: 1px solid var(--gray-200); border-radius: 20px; padding: 5px 12px;
+  font-size: 11px; font-weight: 600; color: var(--gray-600); cursor: pointer;
+  white-space: nowrap; background: var(--white); transition: all 0.15s;
+}
+.filter-chip:hover  { border-color: var(--blue-400); color: var(--blue-700); }
+.filter-chip.active { border-color: var(--blue-600); background: var(--blue-50); color: var(--blue-700); }
+
+.search-result-label {
+  font-size: 11px; font-weight: 600; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: 0.4px;
+  padding: 10px 16px 4px; background: var(--white);
+}
+
+/* ===== CARDS ===== */
+.card-list { padding: 16px; }
+
+.listing-card {
+  background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px;
+  padding: 18px; margin-bottom: 12px; transition: box-shadow 0.15s; position: relative;
+}
+.listing-card:hover { box-shadow: 0 2px 12px rgba(15,23,42,0.08); }
+.listing-card.featured { border-color: var(--blue-400); border-left: 3px solid var(--blue-600); }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.brand-info { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.brand-initial {
+  width: 40px; height: 40px; border-radius: 8px; background: var(--blue-50);
+  border: 1px solid var(--blue-100); display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: var(--blue-700); flex-shrink: 0;
+}
+.brand-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.brand-cat  { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+.featured-label {
+  font-size: 10px; font-weight: 700; color: var(--blue-700); background: var(--blue-50);
+  border: 1px solid var(--blue-100); padding: 2px 8px; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.4px; flex-shrink: 0;
+}
+.card-title  { font-size: 15px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+.card-desc   { font-size: 13px; color: var(--gray-600); line-height: 1.6; margin-bottom: 12px; }
+.card-tags   { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tag { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 4px; background: var(--gray-100); color: var(--gray-600); }
+.tag.primary { background: var(--blue-50); color: var(--blue-700); border: 1px solid var(--blue-100); }
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.card-meta   { font-size: 11px; color: var(--gray-400); }
+.budget-label { font-size: 17px; font-weight: 700; color: var(--gray-900); }
+.budget-sub   { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+
+.btn-apply {
+  background: var(--blue-700); color: var(--white); border: none; border-radius: 6px;
+  padding: 9px 16px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12px;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-apply:hover { background: var(--blue-800); }
+.btn-apply:disabled { background: var(--gray-200); color: var(--gray-400); cursor: default; }
+.btn-apply.applied { background: var(--gray-100); color: var(--green); border: 1px solid var(--gray-200); }
+
+/* ===== INBOX / MESSAGES ===== */
+.inbox-section { padding: 0; }
+.inbox-header  { padding: 16px 20px 12px; border-bottom: 1px solid var(--gray-100); background: var(--white); }
+.inbox-title   { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.inbox-count   { display: inline-block; background: var(--blue-600); color: var(--white); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; margin-left: 6px; vertical-align: middle; }
+
+.thread-item {
+  display: flex; align-items: center; gap: 12px; padding: 14px 20px;
+  border-bottom: 1px solid var(--gray-100); cursor: pointer;
+  background: var(--white); transition: background 0.1s;
+}
+.thread-item:hover { background: var(--gray-50); }
+.thread-item.unread { background: var(--blue-50); }
+.thread-avatar {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--blue-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; color: var(--blue-700); flex-shrink: 0;
+}
+.thread-body { flex: 1; min-width: 0; }
+.thread-name {
+  font-size: 14px; font-weight: 600; color: var(--gray-900);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.thread-time    { font-size: 11px; color: var(--gray-400); font-weight: 400; }
+.thread-preview { font-size: 12px; color: var(--gray-400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.thread-preview.unread { color: var(--gray-700); font-weight: 500; }
+.unread-badge  { width: 8px; height: 8px; background: var(--blue-600); border-radius: 50%; flex-shrink: 0; }
+.thread-context { font-size: 10px; color: var(--blue-600); font-weight: 500; background: var(--blue-50); padding: 1px 6px; border-radius: 3px; margin-top: 3px; display: inline-block; }
+
+.empty-inbox { text-align: center; padding: 48px 24px; background: var(--white); }
+.empty-inbox-title { font-size: 15px; font-weight: 600; color: var(--gray-700); margin-bottom: 6px; }
+.empty-inbox-sub   { font-size: 13px; color: var(--gray-400); }
+
+/* ===== CHAT VIEW ===== */
+.chat-view {
+  display: none; position: fixed; inset: 0; background: var(--white); z-index: 500; flex-direction: column;
+}
+.chat-view.show { display: flex; }
+.chat-header {
+  background: var(--blue-900); padding: 0 16px; height: 56px;
+  display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--blue-800);
+}
+.btn-back { background: none; border: none; color: var(--white); font-size: 22px; cursor: pointer; padding: 0; line-height: 1; }
+.chat-peer-info { flex: 1; }
+.chat-peer-name   { font-size: 14px; font-weight: 600; color: var(--white); }
+.chat-peer-status { font-size: 11px; color: var(--blue-400); }
+.chat-peer-context { font-size: 10px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 16px; background: var(--gray-50);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.msg-bubble { max-width: 76%; }
+.msg-bubble.me   { align-self: flex-end; }
+.msg-bubble.them { align-self: flex-start; }
+.msg-content { padding: 10px 14px; border-radius: 10px; font-size: 13px; line-height: 1.5; }
+.msg-bubble.me .msg-content   { background: var(--blue-700); color: var(--white); border-bottom-right-radius: 3px; }
+.msg-bubble.them .msg-content { background: var(--white); color: var(--gray-900); border: 1px solid var(--gray-200); border-bottom-left-radius: 3px; }
+.msg-time { font-size: 10px; color: var(--gray-400); margin-top: 4px; padding: 0 2px; }
+.msg-bubble.me .msg-time { text-align: right; }
+
+.chat-input-bar { padding: 12px 16px; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; gap: 10px; align-items: center; }
+.chat-input { flex: 1; border: 1px solid var(--gray-300); border-radius: 8px; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 13px; outline: none; color: var(--gray-900); }
+.chat-input:focus { border-color: var(--blue-400); }
+.btn-send {
+  width: 40px; height: 40px; border-radius: 8px; background: var(--blue-700); border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--white); font-size: 16px; flex-shrink: 0; transition: background 0.15s;
+}
+.btn-send:hover { background: var(--blue-800); }
+
+/* ===== DASHBOARD ===== */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
+.stat-card  { background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 16px; }
+.stat-num   { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+.stat-label { font-size: 11px; color: var(--gray-400); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; }
+
+.section-block { padding: 0 16px 16px; }
+.section-block-title {
+  font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase;
+  letter-spacing: 0.5px; padding: 12px 0 10px; border-top: 1px solid var(--gray-100);
+}
+
+.application-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+.app-icon  { width: 38px; height: 38px; border-radius: 8px; background: var(--blue-50); border: 1px solid var(--blue-100); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--blue-700); flex-shrink: 0; }
+.app-info  { flex: 1; min-width: 0; }
+.app-title { font-size: 13px; font-weight: 600; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-brand { font-size: 11px; color: var(--gray-400); }
+
+.status-pill     { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; }
+.status-review   { background: var(--blue-50); color: var(--blue-700); }
+.status-accepted { background: #d1fae5; color: var(--green); }
+.status-rejected { background: #fee2e2; color: var(--red); }
+.status-contacted { background: #fef3c7; color: #92400e; }
+
+.applicant-row { display: flex; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); }
+.applicant-av  { width: 40px; height: 40px; border-radius: 50%; background: var(--blue-50); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--blue-700); flex-shrink: 0; border: 1px solid var(--blue-100); }
+.applicant-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.applicant-meta { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+
+.btn-contact {
+  background: var(--blue-700); color: var(--white); border: none; border-radius: 6px;
+  padding: 7px 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11px;
+  cursor: pointer; margin-left: auto; flex-shrink: 0; transition: background 0.15s;
+}
+.btn-contact:hover { background: var(--blue-800); }
+
+/* ===== STATUS FILTER CHIPS (tambahan) ===== */
+.status-filter-row {
+  display: flex; gap: 6px; overflow-x: auto; padding: 0 0 10px; margin-bottom: 4px;
+}
+.status-chip {
+  border: 1px solid var(--gray-200); border-radius: 20px; padding: 4px 10px;
+  font-size: 11px; font-weight: 600; color: var(--gray-600); cursor: pointer;
+  white-space: nowrap; background: var(--white); transition: all 0.15s; flex-shrink: 0;
+}
+.status-chip:hover  { border-color: var(--blue-400); color: var(--blue-700); }
+.status-chip.active { border-color: var(--blue-600); background: var(--blue-50); color: var(--blue-700); }
+
+/* ===== STATUS LEGEND (tambahan) ===== */
+.status-legend {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  padding: 10px 16px 0;
+  margin-bottom: 2px;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--gray-400); }
+.legend-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== BRAND ACTIONS ===== */
+.brand-cta {
+  background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px;
+  padding: 18px; margin: 16px; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+}
+.brand-cta-text h4 { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.brand-cta-text p  { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+.btn-cta {
+  background: var(--blue-700); color: var(--white); border: none; border-radius: 8px;
+  padding: 10px 18px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: background 0.15s;
+}
+.btn-cta:hover { background: var(--blue-800); }
+
+/* ===== PROFILE ===== */
+.profile-section { padding: 16px; }
+.profile-hero-card { background: var(--blue-900); border-radius: 10px; padding: 24px 20px; text-align: center; margin-bottom: 16px; }
+.profile-av-wrap { position: relative; width: 72px; margin: 0 auto 12px; cursor: pointer; }
+.profile-av-xl { width: 72px; height: 72px; border-radius: 50%; background: var(--blue-700); border: 2px solid var(--blue-600); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: var(--white); overflow: hidden; }
+.profile-av-xl img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.profile-av-cam {
+  position: absolute; bottom: 0; right: 0;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--blue-500); border: 2px solid var(--blue-900);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; cursor: pointer;
+}
+.profile-name-xl { font-size: 20px; font-weight: 700; color: var(--white); }
+.profile-role-pill { display: inline-block; background: rgba(255,255,255,0.1); color: var(--blue-300, #93c5fd); font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; margin-top: 8px; border: 1px solid rgba(255,255,255,0.15); }
+
+/* ===== EDIT NAMA — nama limit badge ===== */
+.name-edit-info {
+  font-size: 12px; color: var(--gray-600); background: var(--gray-50);
+  border: 1px solid var(--gray-200); border-radius: 8px;
+  padding: 10px 12px; margin-bottom: 16px; line-height: 1.7;
+}
+.name-edit-info strong { color: var(--gray-900); }
+.name-limit-badge {
+  display: inline-block; background: var(--blue-50); color: var(--blue-700);
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+  border: 1px solid var(--blue-100); margin-top: 4px;
+}
+.name-limit-badge.warn { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+.name-limit-badge.full { background: #fee2e2; color: var(--red); border-color: #fecaca; }
+
+/* ===== FOTO PROFIL — preview dalam modal ===== */
+.photo-preview-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 20px;
+}
+.photo-preview-circle {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--blue-700); border: 3px solid var(--blue-100);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; font-weight: 700; color: var(--white);
+  overflow: hidden; flex-shrink: 0;
+}
+.photo-preview-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.btn-pick-photo {
+  background: var(--white); color: var(--blue-700);
+  border: 1.5px solid var(--blue-600); border-radius: 8px;
+  padding: 9px 20px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-pick-photo:hover { background: var(--blue-50); }
+.photo-hint { font-size: 11px; color: var(--gray-400); text-align: center; }
+
+.info-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 18px; margin-bottom: 12px; }
+.info-card-title { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+.info-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.info-row:last-of-type { margin-bottom: 0; }
+.info-key { font-size: 11px; font-weight: 600; color: var(--gray-400); min-width: 100px; padding-top: 1px; }
+.info-val { font-size: 13px; font-weight: 500; color: var(--gray-900); flex: 1; }
+
+.btn-edit { background: var(--white); color: var(--blue-700); border: 1.5px solid var(--blue-600); border-radius: 8px; padding: 10px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; width: 100%; margin-top: 14px; transition: all 0.15s; }
+.btn-edit:hover { background: var(--blue-50); }
+
+.btn-logout { background: transparent; border: 1.5px solid var(--red); border-radius: 8px; padding: 10px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; color: var(--red); cursor: pointer; width: 100%; margin-top: 8px; transition: all 0.15s; }
+.btn-logout:hover { background: var(--red); color: var(--white); }
+
+/* ===== MODALS ===== */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.6); z-index: 300; align-items: flex-end; justify-content: center; }
+.overlay.show { display: flex; }
+.bottom-sheet { background: var(--white); border-radius: 12px 12px 0 0; padding: 24px 20px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.25s ease; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-handle { width: 36px; height: 3px; background: var(--gray-200); border-radius: 3px; margin: 0 auto 20px; }
+.sheet-title  { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.sheet-sub    { font-size: 13px; color: var(--gray-400); margin-bottom: 22px; }
+
+.pay-amount-box { border: 1px solid var(--gray-200); border-radius: 8px; padding: 14px; text-align: center; margin-bottom: 20px; background: var(--gray-50); }
+.pay-amount     { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+.pay-amount-sub { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+.pay-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 18px; }
+.pay-opt { border: 1px solid var(--gray-200); border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; transition: all 0.15s; }
+.pay-opt:hover, .pay-opt.sel { border-color: var(--blue-500); background: var(--blue-50); }
+.pay-opt-name { font-size: 12px; font-weight: 600; color: var(--gray-900); }
+
+.bank-box { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 8px; padding: 14px; margin-bottom: 18px; }
+.bank-box p { font-size: 12px; color: var(--gray-600); margin-bottom: 6px; }
+.bank-num   { font-size: 20px; font-weight: 700; color: var(--gray-900); letter-spacing: 1px; }
+.bank-note  { font-size: 11px; color: var(--gray-400); margin-top: 6px; }
+
+.btn-confirm      { background: var(--blue-700); color: var(--white); border: none; border-radius: 8px; padding: 13px; font-family:'Inter',sans-serif; font-weight:700; font-size:14px; cursor:pointer; width:100%; margin-bottom:10px; transition:background 0.15s; }
+.btn-confirm:hover { background: var(--blue-800); }
+.btn-cancel-sheet { background:transparent; border:none; font-family:'Inter',sans-serif; font-size:13px; color:var(--gray-400); cursor:pointer; width:100%; padding:8px; }
+
+/* ===== TOAST ===== */
+.toast-wrap { position:fixed; top:70px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; flex-direction:column; gap:6px; pointer-events:none; }
+.toast-item {
+  background: var(--gray-900); color: var(--white); padding: 10px 18px; border-radius: 6px;
+  font-size: 13px; font-weight: 500; white-space: nowrap; border-left: 3px solid var(--blue-500);
+  animation: toastIn 0.2s ease, toastOut 0.3s ease 2.7s forwards;
+}
+@keyframes toastIn  { from{transform:translateY(-12px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+@keyframes toastOut { to{opacity:0;} }
+
+/* ===== EMPTY STATE ===== */
+.empty-state { text-align:center; padding:48px 24px; }
+.empty-title { font-size:15px; font-weight:600; color:var(--gray-700); margin-bottom:6px; }
+.empty-sub   { font-size:13px; color:var(--gray-400); }
+
+/* ===== PROFILE NAME EDIT TRIGGER ===== */
+.profile-name-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-edit-name-inline {
+  background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px; width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 12px; color: var(--white);
+  transition: background 0.15s; flex-shrink: 0;
+}
+.btn-edit-name-inline:hover { background: rgba(255,255,255,0.22); }
+
+@media(max-width:360px) {
+  .auth-card{padding:24px 16px;}
+  .role-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- Hidden file input for photo upload -->
+<input type="file" id="photoFileInput" accept="image/*" style="display:none" onchange="onPhotoSelected(event)">
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- CHAT VIEW -->
+<div class="chat-view" id="chatView">
+  <div class="chat-header">
+    <button class="btn-back" onclick="closeChat()">&#8249;</button>
+    <div class="chat-peer-info">
+      <div class="chat-peer-name" id="chatPeerName">-</div>
+      <div class="chat-peer-status">Online sekarang</div>
+      <div class="chat-peer-context" id="chatPeerContext"></div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-bar">
+    <input class="chat-input" id="chatInput" placeholder="Tulis pesan..." onkeypress="onChatKey(event)">
+    <button class="btn-send" onclick="sendMsg()">&#9658;</button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="overlay" id="payOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Aktifkan Iklan Premium</div>
+    <div class="sheet-sub">Iklan tayang 14 hari — ratusan kreator lokal menemukanmu</div>
+    <div class="pay-amount-box">
+      <div class="pay-amount">Rp 99.000</div>
+      <div class="pay-amount-sub">Sekali bayar · 14 hari tayang · Badge Premium aktif</div>
+    </div>
+    <div class="pay-methods">
+      <div class="pay-opt sel" onclick="selPay(this,'transfer')"><div class="pay-opt-name">Transfer Bank</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'qris')"><div class="pay-opt-name">QRIS</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'dana')"><div class="pay-opt-name">DANA</div></div>
+      <div class="pay-opt"    onclick="selPay(this,'gopay')"><div class="pay-opt-name">GoPay</div></div>
+    </div>
+    <div class="bank-box" id="bankBox">
+      <p>Transfer ke BCA atas nama <strong>PT Collab Match Creator</strong></p>
+      <div class="bank-num">1234 5678 90</div>
+      <div class="bank-note">Nominal tepat Rp 99.000 — konfirmasi otomatis dalam 1x24 jam</div>
+    </div>
+    <button class="btn-confirm" onclick="confirmPay()">Konfirmasi Sudah Bayar</button>
+    <button class="btn-cancel-sheet" onclick="closePayOverlay()">Batalkan</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL (CREATOR) -->
+<div class="overlay" id="editOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Edit Profil</div>
+    <div class="sheet-sub">Lengkapi profil agar mudah ditemukan brand</div>
+    <div class="form-group">
+      <label class="form-label">Bio Singkat</label>
+      <textarea class="form-input" id="editBio" rows="3" placeholder="Ceritakan keunikanmu sebagai kreator..." style="resize:none"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Niche Konten</label>
+      <select class="form-input" id="editNiche">
+        <option>Beauty &amp; Lifestyle</option><option>Food &amp; Culinary</option>
+        <option>Fashion</option><option>Travel</option>
+        <option>Tech &amp; Gadget</option><option>Gaming</option>
+        <option>Finance</option><option>Health &amp; Fitness</option>
+        <option>Parenting</option><option>Comedy &amp; Entertainment</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kota</label>
+      <input class="form-input" id="editCity" placeholder="Contoh: Solo, Jawa Tengah">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username Instagram</label>
+      <input class="form-input" id="editIG" placeholder="@username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username TikTok</label>
+      <input class="form-input" id="editTT" placeholder="@username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Total Followers (gabungan)</label>
+      <input class="form-input" id="editFollowers" type="number" placeholder="Contoh: 12500">
+    </div>
+    <button class="btn-confirm" onclick="saveProfile()">Simpan Profil</button>
+    <button class="btn-cancel-sheet" onclick="closeEdit()">Batal</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL (BRAND) -->
+<div class="overlay" id="editBrandOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Edit Profil Brand</div>
+    <div class="sheet-sub">Lengkapi info brand agar kreator lebih percaya</div>
+    <div class="form-group">
+      <label class="form-label">Nama Brand</label>
+      <input class="form-input" id="editBrandName" placeholder="Contoh: Kopi Nusantara">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kategori Bisnis</label>
+      <select class="form-input" id="editBrandCat">
+        <option>Kuliner &amp; F&amp;B</option><option>Beauty &amp; Skincare</option>
+        <option>Fashion</option><option>UMKM Lokal</option>
+        <option>Travel &amp; Hospitality</option><option>Tech &amp; Apps</option>
+        <option>Education</option><option>Health &amp; Wellness</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Lokasi Brand</label>
+      <input class="form-input" id="editBrandCity" placeholder="Contoh: Solo, Jawa Tengah">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Instagram Brand</label>
+      <input class="form-input" id="editBrandIG" placeholder="@namainstagram">
+    </div>
+    <div class="form-group">
+      <label class="form-label">TikTok Brand</label>
+      <input class="form-input" id="editBrandTT" placeholder="@namatiktok">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Website / Link Bio</label>
+      <input class="form-input" id="editBrandWeb" placeholder="https://website.com">
+    </div>
+    <button class="btn-confirm" onclick="saveBrandProfile()">Simpan Profil Brand</button>
+    <button class="btn-cancel-sheet" onclick="closeEditBrand()">Batal</button>
+  </div>
+</div>
+
+<!-- POST JOB MODAL -->
+<div class="overlay" id="postJobOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Pasang Iklan Kampanye</div>
+    <div class="sheet-sub">Kreator lokal siap menemukan lowonganmu dalam hitungan menit</div>
+    <div class="form-group">
+      <label class="form-label">Nama Kampanye / Produk</label>
+      <input class="form-input" id="jobTitle" placeholder="Contoh: Review Kopi Arabika Premium">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Deskripsi Briefing</label>
+      <textarea class="form-input" id="jobDesc" rows="3" placeholder="Format konten, tone, deliverable, dll." style="resize:none"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Niche Kreator yang Dicari</label>
+      <select class="form-input" id="jobNiche">
+        <option>Beauty &amp; Lifestyle</option><option>Food &amp; Culinary</option>
+        <option>Fashion</option><option>Travel</option>
+        <option>Tech &amp; Gadget</option><option>Gaming</option>
+        <option>Finance</option><option>Health &amp; Fitness</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Lokasi Target Kreator</label>
+      <input class="form-input" id="jobLocation" placeholder="Contoh: Solo, Semarang, Yogyakarta">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Budget Kolaborasi (Rp)</label>
+      <input class="form-input" id="jobBudget" type="number" placeholder="Contoh: 500000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kategori Bisnis</label>
+      <select class="form-input" id="jobCategory">
+        <option>Kuliner &amp; F&amp;B</option><option>Beauty &amp; Skincare</option>
+        <option>Fashion</option><option>UMKM Lokal</option>
+        <option>Travel &amp; Hospitality</option><option>Tech &amp; Apps</option>
+        <option>Education</option><option>Health &amp; Wellness</option>
+      </select>
+    </div>
+    <button class="btn-confirm" onclick="submitPost()">Pasang Iklan — Rp 99.000</button>
+    <button class="btn-cancel-sheet" onclick="closePostJob()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== EDIT FOTO PROFIL MODAL (BARU) ===== -->
+<div class="overlay" id="editPhotoOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Foto Profil</div>
+    <div class="sheet-sub">Pilih foto yang mewakili identitasmu</div>
+    <div class="photo-preview-wrap">
+      <div class="photo-preview-circle" id="photoPreviewCircle">?</div>
+      <button class="btn-pick-photo" onclick="document.getElementById('photoFileInput').click()">Pilih Foto dari Galeri</button>
+      <div class="photo-hint">Format JPG / PNG · Maks. 5 MB · Rasio 1:1 disarankan</div>
+    </div>
+    <button class="btn-confirm" id="btnSavePhoto" onclick="savePhoto()" disabled style="opacity:0.5">Simpan Foto Profil</button>
+    <button class="btn-cancel-sheet" id="btnRemovePhoto" onclick="removePhoto()" style="color:var(--red);display:none">Hapus Foto Profil</button>
+    <button class="btn-cancel-sheet" onclick="closeEditPhoto()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== EDIT NAMA AKUN MODAL (BARU) ===== -->
+<div class="overlay" id="editNameOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Ubah Nama Akun</div>
+    <div class="sheet-sub">Nama yang tampil di profil dan percakapanmu</div>
+    <div class="name-edit-info" id="nameEditInfo">
+      <!-- diisi oleh JS -->
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nama Baru</label>
+      <input class="form-input" id="editNameInput" placeholder="Nama lengkap kamu" maxlength="50">
+    </div>
+    <button class="btn-confirm" id="btnSaveName" onclick="saveName()">Simpan Nama</button>
+    <button class="btn-cancel-sheet" onclick="closeEditName()">Batal</button>
+  </div>
+</div>
+
+<!-- ===== AUTH ===== -->
+<div id="authArea">
+  <!-- LOGIN -->
+  <div id="loginPage" class="auth-page">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-brand-name">Collab Match Creator</div>
+        <div class="auth-brand-sub">Platform kolaborasi kreator &amp; brand lokal Indonesia</div>
+      </div>
+      <div class="auth-heading">Masuk ke Akun</div>
+      <div class="auth-subheading">Selamat datang kembali</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="loginPw" placeholder="Min. 6 karakter">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <label style="font-size:13px;color:var(--gray-600);display:flex;align-items:center;gap:6px;cursor:pointer">
+          <input type="checkbox" id="rememberMe" style="accent-color:var(--blue-600)"> Ingat saya
+        </label>
+        <a href="#" style="font-size:13px;color:var(--blue-600);text-decoration:none;font-weight:600">Lupa password?</a>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Masuk Sekarang</button>
+      <div class="auth-switch">Belum punya akun? <a href="#" onclick="showReg()">Daftar Gratis</a></div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="regPage" class="auth-page" style="display:none">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-brand-name">Collab Match Creator</div>
+        <div class="auth-brand-sub">Mulai kolaborasi impianmu hari ini</div>
+      </div>
+      <div class="auth-heading">Buat Akun Baru</div>
+      <div class="auth-subheading">Gratis selamanya untuk kreator</div>
+      <div class="form-group">
+        <label class="form-label">Nama Lengkap</label>
+        <input class="form-input" type="text" id="regName" placeholder="Nama kamu">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="regEmail" placeholder="email@kamu.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" id="regPw" placeholder="Min. 6 karakter">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Daftar Sebagai</label>
+        <div class="role-grid">
+          <div class="role-option selected" id="roleCreatorOpt" onclick="pickRole('creator')">
+            <div class="role-option-title">Konten Kreator</div>
+            <div class="role-option-desc">Micro-influencer, KOL</div>
+          </div>
+          <div class="role-option" id="roleBrandOpt" onclick="pickRole('brand')">
+            <div class="role-option-title">Brand / Bisnis</div>
+            <div class="role-option-desc">UMKM, Kafe, Agensi</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doRegister()">Buat Akun Gratis</button>
+      <div class="auth-switch">Sudah punya akun? <a href="#" onclick="showLogin()">Masuk</a></div>
+    </div>
+  </div>
+
+  <!-- REGISTER SUCCESS -->
+  <div id="regSuccessPage" class="reg-success-page">
+    <div class="success-card">
+      <div class="auth-brand" style="text-align:center">
+        <div class="auth-brand-name">Collab Match Creator</div>
+      </div>
+      <div class="success-icon">✓</div>
+      <div class="success-title">Akun Berhasil Dibuat!</div>
+      <div class="success-sub">Akunmu sudah siap. Silakan masuk dengan email dan password yang kamu daftarkan tadi.</div>
+      <div class="success-email-box" id="successEmail">email@kamu.com</div>
+      <button class="btn-primary" onclick="goToLoginAfterReg()">Masuk ke Akun Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app-wrapper" id="appWrapper">
+
+  <nav class="top-nav">
+    <div class="top-nav-brand" id="topNavBrand">Collab Match <span>Creator</span></div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="showTab('inbox')" id="inboxNavBtn" title="Pesan">
+        &#9993;
+        <div class="notif-dot" id="inboxDot" style="display:none"></div>
+      </button>
+      <div class="nav-avatar" id="navAv" onclick="showTab('profile')">K</div>
+    </div>
+  </nav>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" id="tabCollab" onclick="showTab('collab')">Open Collab</button>
+    <button class="tab-btn" id="tabJob"    onclick="showTab('job')">Job / Brand</button>
+    <button class="tab-btn" id="tabInbox"  onclick="showTab('inbox')">Pesan</button>
+    <button class="tab-btn" id="tabDash"   onclick="showTab('dash')">Dashboard</button>
+    <button class="tab-btn" id="tabProfile" onclick="showTab('profile')">Profil</button>
+  </div>
+
+  <div class="app-content">
+
+    <!-- OPEN COLLAB TAB -->
+    <div class="tab-section active" id="secCollab">
+      <div class="page-header">
+        <div class="page-header-title">Brand Open Collab</div>
+        <div class="page-header-sub">Brand-brand ini sedang membuka peluang kolaborasi</div>
+      </div>
+
+      <div class="search-bar-wrap">
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="collabSearchInput" placeholder="Cari brand, niche, atau lokasi..." oninput="onCollabSearch()">
+          </div>
+          <button class="btn-search" onclick="onCollabSearch()">Cari</button>
+        </div>
+        <div class="filter-chips" id="collabNicheChips"></div>
+      </div>
+      <div class="search-result-label" id="collabResultLabel" style="display:none"></div>
+      <div class="card-list" id="collabList"></div>
+    </div>
+
+    <!-- JOB TAB -->
+    <div class="tab-section" id="secJob">
+      <div class="page-header">
+        <div class="page-header-title">Lowongan Berbayar</div>
+        <div class="page-header-sub">Iklan kampanye dari brand — apply 1x tap</div>
+      </div>
+
+      <div class="search-bar-wrap">
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="jobSearchInput" placeholder="Cari brand, niche, atau lokasi..." oninput="onJobSearch()">
+          </div>
+          <button class="btn-search" onclick="onJobSearch()">Cari</button>
+        </div>
+        <div class="filter-chips" id="jobNicheChips"></div>
+      </div>
+      <div class="search-result-label" id="jobResultLabel" style="display:none"></div>
+      <div class="card-list" id="jobList"></div>
+    </div>
+
+    <!-- INBOX TAB -->
+    <div class="tab-section" id="secInbox">
+      <div class="page-header">
+        <div class="page-header-title">Pesan <span class="inbox-count" id="inboxCount">0</span></div>
+        <div class="page-header-sub" id="inboxSubtitle">Semua percakapan kolaborasi</div>
+      </div>
+      <div class="inbox-section" id="inboxList"></div>
+    </div>
+
+    <!-- DASHBOARD TAB -->
+    <div class="tab-section" id="secDash">
+
+      <!-- Creator Dashboard -->
+      <div id="creatorDash">
+        <div class="page-header">
+          <div class="page-header-title">Dashboard Kreator</div>
+          <div class="page-header-sub">Pantau aktivitas kolaborasimu</div>
+        </div>
+
+        <div class="stats-grid" id="creatorStats" style="grid-template-columns:1fr 1fr 1fr 1fr">
+          <div class="stat-card">
+            <div class="stat-num" id="stTotal">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stReview" style="color:var(--blue-600)">0</div>
+            <div class="stat-label">Ditinjau</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stAccepted" style="color:var(--green)">0</div>
+            <div class="stat-label">Diterima</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" id="stContacted" style="color:#d97706">0</div>
+            <div class="stat-label">Dihubungi</div>
+          </div>
+        </div>
+
+        <div class="status-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--blue-600)"></div>Ditinjau</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Diterima</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div>Dihubungi</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Tidak Lanjut</div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-block-title">Status Pengajuan</div>
+          <div class="status-filter-row" id="statusFilterRow">
+            <div class="status-chip active" onclick="filterStatus('all', this)">Semua</div>
+            <div class="status-chip" onclick="filterStatus('review', this)">Ditinjau</div>
+            <div class="status-chip" onclick="filterStatus('accepted', this)">Diterima</div>
+            <div class="status-chip" onclick="filterStatus('contacted', this)">Dihubungi</div>
+            <div class="status-chip" onclick="filterStatus('rejected', this)">Tidak Lanjut</div>
+          </div>
+          <div id="statusList"></div>
+        </div>
+      </div>
+
+      <!-- Brand Dashboard -->
+      <div id="brandDash" style="display:none">
+        <div class="page-header">
+          <div class="page-header-title">Dashboard Brand</div>
+          <div class="page-header-sub">Kelola kampanye dan pantau kreator</div>
+        </div>
+        <div class="brand-cta">
+          <div class="brand-cta-text">
+            <h4>Pasang Iklan Baru</h4>
+            <p>Jangkau ratusan kreator lokal siap kolaborasi — tayang 14 hari</p>
+          </div>
+          <button class="btn-cta" onclick="openPostJob()">Pasang Iklan</button>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-num" id="stIklan">0</div><div class="stat-label">Iklan Aktif</div></div>
+          <div class="stat-card"><div class="stat-num" id="stPelamar">0</div><div class="stat-label">Pelamar</div></div>
+        </div>
+        <div class="section-block">
+          <div class="section-block-title">Kreator yang Melamar</div>
+          <div id="applicantList"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PROFILE TAB -->
+    <div class="tab-section" id="secProfile">
+      <div class="profile-section">
+        <div class="profile-hero-card">
+          <!-- Foto profil dengan tombol edit -->
+          <div class="profile-av-wrap" onclick="openEditPhoto()">
+            <div class="profile-av-xl" id="profileAv">K</div>
+            <div class="profile-av-cam">📷</div>
+          </div>
+          <!-- Nama dengan tombol edit inline -->
+          <div class="profile-name-row">
+            <div class="profile-name-xl" id="profileName">Pengguna</div>
+            <button class="btn-edit-name-inline" onclick="openEditName()" title="Ubah nama">✏️</button>
+          </div>
+          <div class="profile-role-pill" id="profileRole">Konten Kreator</div>
+        </div>
+
+        <!-- CREATOR INFO -->
+        <div class="info-card" id="creatorInfo">
+          <div class="info-card-title">Informasi Kreator</div>
+          <div class="info-row"><div class="info-key">Kota</div><div class="info-val" id="pCity">Belum diisi</div></div>
+          <div class="info-row"><div class="info-key">Niche</div><div class="info-val" id="pNiche">Belum diisi</div></div>
+          <div class="info-row"><div class="info-key">Total Followers</div><div class="info-val" id="pFollowers">0</div></div>
+          <div class="info-row"><div class="info-key">Instagram</div><div class="info-val" id="pIG">-</div></div>
+          <div class="info-row"><div class="info-key">TikTok</div><div class="info-val" id="pTT">-</div></div>
+          <button class="btn-edit" onclick="openEdit()">Edit Profil</button>
+        </div>
+
+        <!-- BRAND INFO -->
+        <div class="info-card" id="brandInfo" style="display:none">
+          <div class="info-card-title">Informasi Brand</div>
+          <div class="info-row"><div class="info-key">Nama Brand</div><div class="info-val" id="pBrandName">-</div></div>
+          <div class="info-row"><div class="info-key">Kategori</div><div class="info-val" id="pBrandCat">-</div></div>
+          <div class="info-row"><div class="info-key">Lokasi</div><div class="info-val" id="pBrandCity">-</div></div>
+          <div class="info-row"><div class="info-key">Instagram</div><div class="info-val" id="pBrandIG">-</div></div>
+          <div class="info-row"><div class="info-key">TikTok</div><div class="info-val" id="pBrandTT">-</div></div>
+          <div class="info-row"><div class="info-key">Website</div><div class="info-val" id="pBrandWeb">-</div></div>
+          <div class="info-row"><div class="info-key">Status Iklan</div><div class="info-val" id="pBrandStatus">Belum ada iklan aktif</div></div>
+          <button class="btn-edit" onclick="openEditBrand()">Edit Profil Brand</button>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card-title">Akun</div>
+          <div class="info-row"><div class="info-key">Email</div><div class="info-val" id="pEmail">-</div></div>
+          <div class="info-row"><div class="info-key">Member Sejak</div><div class="info-val" id="pSince">-</div></div>
+          <button class="btn-logout" onclick="doLogout()">Keluar dari Akun</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const db = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } },
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+  del: k => localStorage.removeItem(k)
+};
+
+const hp = pw => btoa(pw + '_cmk2025');
+const vp = (pw,h) => hp(pw) === h;
+
+let CU = null;
+let selRole = 'creator';
+let pendingJob = null;
+let activeChatId = null;
+let collabActiveNiche = '';
+let jobActiveNiche = '';
+let activeStatusFilter = 'all';
+let pendingPhotoDataUrl = null; // foto baru yang dipilih tapi belum disimpan
+
+// ===== SEED DATA =====
+const COLLABS = [
+  { id:'c1', brand:'Aesthetic Coffee Co.', cat:'Kuliner & F&B',
+    title:'Open Collab: Coffee Content Creator',
+    desc:'Kafe specialty di Solo buka kesempatan kolaborasi barter untuk kreator konten. Datang, foto/video, tag kami. Konsumsi gratis plus exposure!',
+    niche:'Food & Culinary', location:'Solo', deadline:30, featured:true },
+  { id:'c2', brand:'Studio Foto Lumina', cat:'Kreatif & Fotografi',
+    title:'Kreator Lifestyle untuk Konten Studio',
+    desc:'Studio foto modern di Semarang cari kreator lifestyle dan fashion untuk sesi foto bersama. Hasilnya dibagi berdua — free sesi!',
+    niche:'Fashion', location:'Semarang', deadline:20, featured:true },
+  { id:'c3', brand:'Herbalux Wellness', cat:'Health & Wellness',
+    title:'Collab Review Produk Herbal Lokal',
+    desc:'Brand herbal wellness cari kreator health dan lifestyle di Jawa Tengah untuk konten review organik. Produk dikirim gratis ke rumah!',
+    niche:'Health & Fitness', location:'Jawa Tengah', deadline:25, featured:false },
+  { id:'c4', brand:'Kelas Digital Muda', cat:'Education & Tech',
+    title:'Affiliate Creator Program',
+    desc:'Platform kelas online cari kreator konten edukatif untuk jadi affiliate. Komisi 30 persen per enrollment dari konten kamu!',
+    niche:'Finance', location:'Seluruh Indonesia', deadline:60, featured:false },
+  { id:'c5', brand:'Warung Soto Bu Lastri', cat:'Kuliner Lokal',
+    title:'Food Vlogger — Konten Kuliner Autentik',
+    desc:'Warung legendaris 30 tahun di Solo cari food vlogger untuk dokumentasi kisah dan menu khas. Makan gratis sepuasnya plus link bio!',
+    niche:'Food & Culinary', location:'Solo', deadline:15, featured:false },
+  { id:'c6', brand:'Toko Thrift Epoch', cat:'Fashion & Thrift',
+    title:'OOTD Collab — Thrift Fashion Creator',
+    desc:'Toko thrift keren di Yogyakarta cari kreator fashion dan OOTD. Pilih outfit gratis, buat konten, tag kami. Saling support!',
+    niche:'Fashion', location:'Yogyakarta', deadline:21, featured:true },
+];
+
+const JOBS = [
+  { id:'j1', brand:'Kopi Nusantara', cat:'Kuliner & F&B',
+    title:'Review Kopi Arabika Premium',
+    desc:'Kami cari kreator food/lifestyle di Solo-Semarang untuk review kopi arabika single origin kami. Format: video TikTok 1-2 menit plus IG Stories.',
+    niche:'Food & Culinary', location:'Solo, Semarang', budget:500000, deadline:12, premium:true, applicants:[] },
+  { id:'j2', brand:'Glow Lab Beauty', cat:'Beauty & Skincare',
+    title:'Collab Skincare Campaign Series',
+    desc:'Brand lokal skincare cari micro-influencer beauty dengan engagement rate baik. Min 5K followers. Free produk plus fee kolaborasi.',
+    niche:'Beauty & Lifestyle', location:'Jawa Tengah', budget:350000, deadline:8, premium:true, applicants:[] },
+  { id:'j3', brand:'Kafe Ruang Tamu', cat:'Kuliner & F&B',
+    title:'Liputan Soft Opening Kafe Jogja',
+    desc:'Kafe estetik baru di Jogja butuh kreator lifestyle untuk liputan soft opening. Makan gratis plus fee plus konten usage rights.',
+    niche:'Food & Culinary', location:'Yogyakarta', budget:200000, deadline:5, premium:true, applicants:[] },
+  { id:'j4', brand:'UMKM Batik Laras', cat:'UMKM Lokal',
+    title:'Endorse Koleksi Batik Modern 2025',
+    desc:'Produsen batik lokal cari fashion kreator yang mau wearing dan review koleksi batik modern kontemporer. Produk gratis plus fee.',
+    niche:'Fashion', location:'Solo, Klaten', budget:300000, deadline:14, premium:false, applicants:[] },
+];
+
+const NICHES = ['Food & Culinary','Fashion','Beauty & Lifestyle','Health & Fitness','Finance','Tech & Gadget','Travel','Gaming'];
+
+// ===== INIT =====
+(function init() {
+  if (!db.get('cmk_jobs'))    db.set('cmk_jobs', JOBS);
+  if (!db.get('cmk_collabs')) db.set('cmk_collabs', COLLABS);
+  const sess = db.get('cmk_session') || db.get('cmk_remember');
+  if (sess) {
+    const users = db.get('cmk_users') || [];
+    const u = users.find(u => u.email === sess.email);
+    if (u) { CU = u; enterApp(); }
+  }
+})();
+
+// ===== AUTH =====
+function showReg() {
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('regPage').style.display = 'flex';
+  document.getElementById('regSuccessPage').classList.remove('show');
+}
+function showLogin() {
+  document.getElementById('regPage').style.display = 'none';
+  document.getElementById('regSuccessPage').classList.remove('show');
+  document.getElementById('loginPage').style.display = 'flex';
+}
+function goToLoginAfterReg() {
+  document.getElementById('regSuccessPage').classList.remove('show');
+  document.getElementById('loginPage').style.display = 'flex';
+}
+function pickRole(r) {
+  selRole = r;
+  document.getElementById('roleCreatorOpt').classList.toggle('selected', r === 'creator');
+  document.getElementById('roleBrandOpt').classList.toggle('selected', r === 'brand');
+}
+
+function doRegister() {
+  const name  = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pw    = document.getElementById('regPw').value;
+  if (!name)  return toast('Nama wajib diisi');
+  if (!email || !/\S+@\S+\.\S+/.test(email)) return toast('Email tidak valid');
+  if (pw.length < 6) return toast('Password minimal 6 karakter');
+  const users = db.get('cmk_users') || [];
+  if (users.find(u => u.email === email)) return toast('Email sudah terdaftar');
+  const newUser = {
+    id:'u'+Date.now(), name, email, password:hp(pw), role:selRole,
+    bio:'', city:'', niche:'', ig:'', tt:'', followers:0,
+    brandName:'', brandCat:'', brandCity:'', brandIG:'', brandTT:'', brandWeb:'',
+    hasPremium:false, createdAt:new Date().toLocaleDateString('id-ID'),
+    photo: null,
+    nameChangeLog: []  // [{changedAt: ISO string}]
+  };
+  users.push(newUser);
+  db.set('cmk_users', users);
+  document.getElementById('regPage').style.display = 'none';
+  document.getElementById('successEmail').textContent = email;
+  document.getElementById('regSuccessPage').classList.add('show');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  const rem   = document.getElementById('rememberMe').checked;
+  if (!email || !pw) return toast('Lengkapi email dan password');
+  const users = db.get('cmk_users') || [];
+  const u = users.find(u => u.email === email);
+  if (!u || !vp(pw, u.password)) return toast('Email atau password salah');
+  // Pastikan field baru ada untuk user lama
+  if (!u.nameChangeLog) u.nameChangeLog = [];
+  if (u.photo === undefined) u.photo = null;
+  CU = u;
+  if (rem) db.set('cmk_remember', { email });
+  db.set('cmk_session', { email });
+  toast('Selamat datang, ' + u.name);
+  enterApp();
+}
+
+function doLogout() {
+  db.del('cmk_session');
+  db.del('cmk_remember');
+  CU = null;
+  document.getElementById('appWrapper').classList.remove('active');
+  document.getElementById('authArea').style.display = 'block';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('regPage').style.display = 'none';
+  document.getElementById('regSuccessPage').classList.remove('show');
+  toast('Berhasil keluar');
+}
+
+// ===== ENTER APP =====
+function enterApp() {
+  document.getElementById('authArea').style.display = 'none';
+  document.getElementById('appWrapper').classList.add('active');
+  setupRole();
+  buildNicheChips();
+  buildCollabs();
+  buildJobs();
+  buildInbox();
+  buildDash();
+  updateProfileUI();
+}
+
+function setupRole() {
+  const isBrand = CU.role === 'brand';
+  const ini = CU.name.charAt(0).toUpperCase();
+  updateNavAvatar();
+  document.getElementById('profileAv').textContent = ini;
+  document.getElementById('creatorDash').style.display = isBrand ? 'none' : 'block';
+  document.getElementById('brandDash').style.display   = isBrand ? 'block' : 'none';
+  document.getElementById('creatorInfo').style.display = isBrand ? 'none' : 'block';
+  document.getElementById('brandInfo').style.display   = isBrand ? 'block' : 'none';
+  const brand = document.getElementById('topNavBrand');
+  if (isBrand) {
+    brand.innerHTML = 'Collab Match <span>Brand</span>';
+  } else {
+    brand.innerHTML = 'Collab Match <span>Creator</span>';
+  }
+}
+
+// Update avatar di nav bar (foto atau inisial)
+function updateNavAvatar() {
+  const navAv = document.getElementById('navAv');
+  if (CU.photo) {
+    navAv.innerHTML = `<img src="${CU.photo}" alt="foto">`;
+  } else {
+    navAv.textContent = CU.name.charAt(0).toUpperCase();
+  }
+}
+
+// ===== TABS =====
+const TABS = ['collab','job','inbox','dash','profile'];
+function showTab(t) {
+  TABS.forEach(x => {
+    const s = document.getElementById('sec' + cap(x));
+    const b = document.getElementById('tab' + cap(x));
+    if (s) s.classList.remove('active');
+    if (b) b.classList.remove('active');
+  });
+  const s = document.getElementById('sec' + cap(t));
+  const b = document.getElementById('tab' + cap(t));
+  if (s) s.classList.add('active');
+  if (b) b.classList.add('active');
+  if (t === 'collab')  buildCollabs();
+  if (t === 'job')     buildJobs();
+  if (t === 'inbox')   buildInbox();
+  if (t === 'dash')    buildDash();
+  if (t === 'profile') updateProfileUI();
+  if (t === 'inbox')   document.getElementById('inboxDot').style.display = 'none';
+}
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+// ===== NICHE CHIPS =====
+function buildNicheChips() {
+  const collabWrap = document.getElementById('collabNicheChips');
+  const jobWrap    = document.getElementById('jobNicheChips');
+  const locChips   = ['Solo','Semarang','Yogyakarta','Jawa Tengah','Seluruh Indonesia'];
+
+  let collabHtml = '<div class="filter-chip active" onclick="setCollabNiche(\'\', this)">Semua</div>';
+  NICHES.forEach(n => { collabHtml += `<div class="filter-chip" onclick="setCollabNiche('${n}', this)">${n}</div>`; });
+  locChips.forEach(l => { collabHtml += `<div class="filter-chip" onclick="setCollabLocation('${l}', this)">${l}</div>`; });
+  collabWrap.innerHTML = collabHtml;
+
+  let jobHtml = '<div class="filter-chip active" onclick="setJobNiche(\'\', this)">Semua</div>';
+  NICHES.forEach(n => { jobHtml += `<div class="filter-chip" onclick="setJobNiche('${n}', this)">${n}</div>`; });
+  locChips.forEach(l => { jobHtml += `<div class="filter-chip" onclick="setJobLocation('${l}', this)">${l}</div>`; });
+  jobWrap.innerHTML = jobHtml;
+}
+
+function setCollabNiche(niche, el) {
+  collabActiveNiche = niche;
+  document.getElementById('collabSearchInput').value = '';
+  document.querySelectorAll('#collabNicheChips .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  buildCollabs();
+}
+function setCollabLocation(loc, el) {
+  document.getElementById('collabSearchInput').value = loc;
+  collabActiveNiche = '';
+  document.querySelectorAll('#collabNicheChips .filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('#collabNicheChips .filter-chip').classList.add('active');
+  el.classList.add('active');
+  buildCollabs();
+}
+function setJobNiche(niche, el) {
+  jobActiveNiche = niche;
+  document.getElementById('jobSearchInput').value = '';
+  document.querySelectorAll('#jobNicheChips .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  buildJobs();
+}
+function setJobLocation(loc, el) {
+  document.getElementById('jobSearchInput').value = loc;
+  jobActiveNiche = '';
+  document.querySelectorAll('#jobNicheChips .filter-chip').forEach(c => c.classList.remove('active'));
+  document.querySelector('#jobNicheChips .filter-chip').classList.add('active');
+  el.classList.add('active');
+  buildJobs();
+}
+
+function onCollabSearch() { buildCollabs(); }
+function onJobSearch()    { buildJobs(); }
+
+// ===== COLLABS =====
+function buildCollabs() {
+  const collabs = db.get('cmk_collabs') || COLLABS;
+  const applied = (db.get('cmk_capps_' + CU?.id) || []).map(a => a.collabId);
+  const query   = (document.getElementById('collabSearchInput')?.value || '').toLowerCase().trim();
+
+  let filtered = collabs.filter(c => {
+    const matchNiche = !collabActiveNiche || c.niche === collabActiveNiche;
+    const matchQuery = !query ||
+      c.brand.toLowerCase().includes(query) ||
+      c.title.toLowerCase().includes(query) ||
+      c.niche.toLowerCase().includes(query) ||
+      c.location.toLowerCase().includes(query) ||
+      c.cat.toLowerCase().includes(query) ||
+      c.desc.toLowerCase().includes(query);
+    return matchNiche && matchQuery;
+  });
+
+  const lbl = document.getElementById('collabResultLabel');
+  if (query || collabActiveNiche) {
+    lbl.style.display = 'block';
+    lbl.textContent = filtered.length + ' hasil ditemukan' + (query ? ' untuk "' + query + '"' : '') + (collabActiveNiche ? ' · ' + collabActiveNiche : '');
+  } else {
+    lbl.style.display = 'none';
+  }
+
+  let html = '';
+  filtered.forEach(c => {
+    const done = applied.includes(c.id);
+    html += `<div class="listing-card ${c.featured ? 'featured' : ''}">
+      <div class="card-top">
+        <div class="brand-info">
+          <div class="brand-initial">${c.brand.charAt(0)}</div>
+          <div><div class="brand-name">${c.brand}</div><div class="brand-cat">${c.cat}</div></div>
+        </div>
+        ${c.featured ? '<div class="featured-label">Pilihan</div>' : ''}
+      </div>
+      <div class="card-title">${c.title}</div>
+      <div class="card-desc">${c.desc}</div>
+      <div class="card-tags">
+        <span class="tag primary">${c.niche}</span>
+        <span class="tag">${c.location}</span>
+        <span class="tag">Open Collab</span>
+      </div>
+      <div class="card-footer">
+        <div class="card-meta">Terbuka ${c.deadline} hari lagi</div>
+        <button class="btn-apply ${done ? 'applied' : ''}" ${done ? 'disabled' : ''} onclick="applyCollab('${c.id}')">
+          ${done ? 'Sudah Diajukan' : 'Ajukan Sekarang'}
+        </button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('collabList').innerHTML = html || emptyState(
+    query || collabActiveNiche ? 'Tidak ada hasil' : 'Belum ada open collab',
+    query || collabActiveNiche ? 'Coba kata kunci atau filter lain' : 'Cek kembali nanti'
+  );
+}
+
+function applyCollab(id) {
+  if (!CU) return;
+  const collabs = db.get('cmk_collabs') || COLLABS;
+  const c = collabs.find(x => x.id === id);
+  if (!c) return;
+  const apps = db.get('cmk_capps_' + CU.id) || [];
+  if (apps.find(a => a.collabId === id)) return;
+  apps.push({ collabId:id, brand:c.brand, title:c.title, status:'review', appliedAt:new Date().toISOString() });
+  db.set('cmk_capps_' + CU.id, apps);
+  addThread(CU.id, 'brand_' + id, c.brand, c.brand.charAt(0),
+    'Halo! Kami menerima pengajuan kolaborasimu. Terima kasih sudah tertarik bergabung bersama ' + c.brand + '!', c.title);
+  toast('Profil terkirim ke ' + c.brand);
+  buildCollabs();
+  updateInboxDot();
+}
+
+// ===== JOBS =====
+function buildJobs() {
+  const jobs  = db.get('cmk_jobs') || JOBS;
+  const applied = (db.get('cmk_japps_' + CU?.id) || []).map(a => a.jobId);
+  const query   = (document.getElementById('jobSearchInput')?.value || '').toLowerCase().trim();
+
+  let filtered = jobs.filter(j => {
+    const matchNiche = !jobActiveNiche || j.niche === jobActiveNiche;
+    const matchQuery = !query ||
+      j.brand.toLowerCase().includes(query) ||
+      j.title.toLowerCase().includes(query) ||
+      j.niche.toLowerCase().includes(query) ||
+      j.location.toLowerCase().includes(query) ||
+      j.cat.toLowerCase().includes(query) ||
+      j.desc.toLowerCase().includes(query);
+    return matchNiche && matchQuery;
+  });
+
+  const lbl = document.getElementById('jobResultLabel');
+  if (query || jobActiveNiche) {
+    lbl.style.display = 'block';
+    lbl.textContent = filtered.length + ' hasil ditemukan' + (query ? ' untuk "' + query + '"' : '') + (jobActiveNiche ? ' · ' + jobActiveNiche : '');
+  } else {
+    lbl.style.display = 'none';
+  }
+
+  let html = '';
+  filtered.forEach(j => {
+    const done = applied.includes(j.id);
+    html += `<div class="listing-card ${j.premium ? 'featured' : ''}">
+      <div class="card-top">
+        <div class="brand-info">
+          <div class="brand-initial">${j.brand.charAt(0)}</div>
+          <div><div class="brand-name">${j.brand}</div><div class="brand-cat">${j.cat}</div></div>
+        </div>
+        ${j.premium ? '<div class="featured-label">Premium</div>' : ''}
+      </div>
+      <div class="card-title">${j.title}</div>
+      <div class="card-desc">${j.desc}</div>
+      <div class="card-tags">
+        <span class="tag primary">${j.niche}</span>
+        <span class="tag">${j.location}</span>
+        <span class="tag">Micro-KOL</span>
+      </div>
+      <div class="card-footer">
+        <div>
+          <div class="budget-label">Rp ${fmt(j.budget)}</div>
+          <div class="budget-sub">budget collab · sisa ${j.deadline} hari</div>
+        </div>
+        <button class="btn-apply ${done ? 'applied' : ''}" ${done ? 'disabled' : ''} onclick="applyJob('${j.id}')">
+          ${done ? 'Dilamar' : 'Apply Sekarang'}
+        </button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('jobList').innerHTML = html || emptyState(
+    query || jobActiveNiche ? 'Tidak ada hasil' : 'Belum ada lowongan',
+    query || jobActiveNiche ? 'Coba kata kunci atau filter lain' : 'Cek kembali nanti'
+  );
+}
+
+function applyJob(id) {
+  const jobs = db.get('cmk_jobs') || JOBS;
+  const j = jobs.find(x => x.id === id);
+  if (!j) return;
+  const apps = db.get('cmk_japps_' + CU.id) || [];
+  if (apps.find(a => a.jobId === id)) return;
+  apps.push({ jobId:id, jobTitle:j.title, brand:j.brand, status:'review', appliedAt:new Date().toISOString() });
+  db.set('cmk_japps_' + CU.id, apps);
+  if (!j.applicants) j.applicants = [];
+  j.applicants.push({ userId:CU.id, name:CU.name, city:CU.city||'-', niche:CU.niche||'-', followers:CU.followers||0, ig:CU.ig||'-', status:'review', appliedAt:new Date().toISOString() });
+  db.set('cmk_jobs', jobs);
+  addThread(CU.id, 'job_' + id, j.brand, j.brand.charAt(0),
+    'Terima kasih sudah melamar! Tim kami akan meninjau profil kamu dalam 1-3 hari kerja. Nantikan kabar kami ya!', j.title);
+  toast('Lamaran terkirim ke ' + j.brand);
+  buildJobs();
+  updateInboxDot();
+}
+
+// ===== INBOX =====
+function getThreads() { return db.get('cmk_threads_' + CU.id) || []; }
+function saveThreads(t) { db.set('cmk_threads_' + CU.id, t); }
+
+function addThread(userId, threadId, peerName, peerInitial, firstMsg, context) {
+  const threads = db.get('cmk_threads_' + userId) || [];
+  const existing = threads.find(t => t.threadId === threadId);
+  const now = new Date().toISOString();
+  if (existing) {
+    existing.messages.push({ from:'them', text:firstMsg, time:now });
+    existing.lastMsg = firstMsg; existing.time = now; existing.unread = true;
+  } else {
+    threads.unshift({ threadId, peerName, peerInitial: peerInitial || peerName.charAt(0),
+      lastMsg:firstMsg, time:now, unread:true, context,
+      messages:[{ from:'them', text:firstMsg, time:now }] });
+  }
+  db.set('cmk_threads_' + userId, threads);
+}
+
+function buildInbox() {
+  const threads = getThreads();
+  const unread  = threads.filter(t => t.unread).length;
+  document.getElementById('inboxCount').textContent = threads.length;
+  document.getElementById('inboxDot').style.display = unread > 0 ? 'block' : 'none';
+  if (threads.length === 0) {
+    document.getElementById('inboxList').innerHTML = `
+      <div class="empty-inbox">
+        <div class="empty-inbox-title">Belum ada pesan</div>
+        <div class="empty-inbox-sub">Setelah kamu apply atau menghubungi kreator, percakapan akan muncul di sini</div>
+      </div>`;
+    return;
+  }
+  let html = '';
+  threads.forEach(t => {
+    html += `<div class="thread-item ${t.unread ? 'unread' : ''}" onclick="openChat('${t.threadId}')">
+      <div class="thread-avatar">${t.peerInitial || t.peerName.charAt(0)}</div>
+      <div class="thread-body">
+        <div class="thread-name">
+          <span>${t.peerName}</span>
+          <span class="thread-time">${fmtTime(t.time)}</span>
+        </div>
+        <div class="thread-preview ${t.unread ? 'unread' : ''}">${t.lastMsg}</div>
+        ${t.context ? `<div class="thread-context">${t.context}</div>` : ''}
+      </div>
+      ${t.unread ? '<div class="unread-badge"></div>' : ''}
+    </div>`;
+  });
+  document.getElementById('inboxList').innerHTML = html;
+}
+
+function openChat(threadId) {
+  const threads = getThreads();
+  const t = threads.find(x => x.threadId === threadId);
+  if (!t) return;
+  t.unread = false;
+  saveThreads(threads);
+  activeChatId = threadId;
+  document.getElementById('chatPeerName').textContent = t.peerName;
+  document.getElementById('chatPeerContext').textContent = t.context || '';
+  renderMessages(t.messages);
+  document.getElementById('chatView').classList.add('show');
+  updateInboxDot();
+}
+
+function renderMessages(msgs) {
+  const cont = document.getElementById('chatMessages');
+  cont.innerHTML = msgs.map(m => `
+    <div class="msg-bubble ${m.from}">
+      <div class="msg-content">${m.text}</div>
+      <div class="msg-time">${fmtTime(m.time)}</div>
+    </div>`).join('');
+  cont.scrollTop = cont.scrollHeight;
+}
+
+function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  const threads = getThreads();
+  const t = threads.find(x => x.threadId === activeChatId);
+  if (!t) return;
+  const now = new Date().toISOString();
+  t.messages.push({ from:'me', text, time:now });
+  t.lastMsg = text; t.time = now;
+  saveThreads(threads);
+  renderMessages(t.messages);
+  setTimeout(() => {
+    const replies = [
+      'Siap! Kami akan follow up dalam waktu dekat.',
+      'Terima kasih infonya. Bisa kirim portfolio kamu?',
+      'Baik, kami catat ya. Ada pertanyaan lain?',
+      'Oke noted! Tim kami akan menghubungimu segera.',
+      'Terima kasih sudah tertarik. Kami konfirmasi dalam 1-2 hari.'
+    ];
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+    const threads2 = getThreads();
+    const t2 = threads2.find(x => x.threadId === activeChatId);
+    if (!t2) return;
+    const ts = new Date().toISOString();
+    t2.messages.push({ from:'them', text:reply, time:ts });
+    t2.lastMsg = reply; t2.time = ts;
+    db.set('cmk_threads_' + CU.id, threads2);
+    renderMessages(t2.messages);
+  }, 900 + Math.random() * 1200);
+}
+
+function closeChat() {
+  document.getElementById('chatView').classList.remove('show');
+  activeChatId = null;
+  buildInbox();
+}
+function onChatKey(e) { if (e.key === 'Enter') sendMsg(); }
+
+function updateInboxDot() {
+  const unread = getThreads().filter(t => t.unread).length;
+  document.getElementById('inboxDot').style.display = unread > 0 ? 'block' : 'none';
+}
+
+function contactKreator(name) {
+  const threadId = 'brand_out_' + name.replace(/\s+/g,'_') + '_' + Date.now();
+  addThread(CU.id, threadId, name, name.charAt(0),
+    'Halo ' + name + ', kami dari ' + CU.name + '. Kami tertarik untuk berkolaborasi denganmu!', 'Inisiasi Brand');
+  const threads = getThreads();
+  const t = threads.find(x => x.threadId === threadId);
+  t.unread = false;
+  saveThreads(threads);
+  activeChatId = threadId;
+  document.getElementById('chatPeerName').textContent = name;
+  document.getElementById('chatPeerContext').textContent = 'Inisiasi Brand';
+  renderMessages(t.messages);
+  document.getElementById('chatView').classList.add('show');
+}
+
+// ===== DASHBOARD =====
+function buildDash() {
+  if (!CU) return;
+  if (CU.role === 'creator') {
+    const jApps = db.get('cmk_japps_' + CU.id) || [];
+    const cApps = db.get('cmk_capps_' + CU.id) || [];
+    const all = [
+      ...jApps.map(a => ({ title:a.jobTitle, brand:a.brand, status:a.status||'review', type:'Lowongan Berbayar', appliedAt:a.appliedAt })),
+      ...cApps.map(a => ({ title:a.title, brand:a.brand, status:a.status||'review', type:'Open Collab', appliedAt:a.appliedAt }))
+    ];
+    const cntReview    = all.filter(a => a.status === 'review').length;
+    const cntAccepted  = all.filter(a => a.status === 'accepted').length;
+    const cntContacted = all.filter(a => a.status === 'contacted').length;
+    const cntRejected  = all.filter(a => a.status === 'rejected').length;
+    document.getElementById('stTotal').textContent    = all.length;
+    document.getElementById('stReview').textContent   = cntReview;
+    document.getElementById('stAccepted').textContent = cntAccepted;
+    document.getElementById('stContacted').textContent= cntContacted;
+    const chips = document.querySelectorAll('#statusFilterRow .status-chip');
+    const labels = ['Semua (' + all.length + ')', 'Ditinjau (' + cntReview + ')', 'Diterima (' + cntAccepted + ')', 'Dihubungi (' + cntContacted + ')', 'Tidak Lanjut (' + cntRejected + ')'];
+    chips.forEach((chip, i) => { chip.textContent = labels[i]; });
+    renderStatusList(all);
+  } else {
+    const jobs    = db.get('cmk_jobs') || JOBS;
+    const myJobs  = jobs.filter(j => j.brandUserId === CU.id);
+    const allApps = myJobs.flatMap(j => (j.applicants||[]).map(a => ({...a, jobTitle:j.title})));
+    document.getElementById('stIklan').textContent   = CU.hasPremium ? (myJobs.length || '1') : '0';
+    document.getElementById('stPelamar').textContent = allApps.length;
+    if (allApps.length === 0) {
+      document.getElementById('applicantList').innerHTML = emptyState('Belum ada pelamar','Pasang iklan untuk mulai menerima lamaran');
+    } else {
+      document.getElementById('applicantList').innerHTML = allApps.slice(0,10).map(a => `
+        <div class="applicant-row">
+          <div class="applicant-av">${a.name.charAt(0)}</div>
+          <div>
+            <div class="applicant-name">${a.name}</div>
+            <div class="applicant-meta">${a.city} &middot; ${a.niche} &middot; ${Number(a.followers).toLocaleString('id')} followers</div>
+            <div class="applicant-meta" style="color:var(--blue-600)">${a.jobTitle}</div>
+          </div>
+          <button class="btn-contact" onclick="contactKreator('${a.name}')">Hubungi</button>
+        </div>`).join('');
+    }
+  }
+}
+
+function renderStatusList(all) {
+  const filtered = activeStatusFilter === 'all'
+    ? all
+    : all.filter(a => a.status === activeStatusFilter);
+  const statusMap = {
+    review:    { label: 'Ditinjau',     cls: 'status-review' },
+    accepted:  { label: 'Diterima',     cls: 'status-accepted' },
+    contacted: { label: 'Dihubungi',    cls: 'status-contacted' },
+    rejected:  { label: 'Tidak Lanjut', cls: 'status-rejected' }
+  };
+  if (filtered.length === 0) {
+    document.getElementById('statusList').innerHTML = emptyState(
+      activeStatusFilter === 'all' ? 'Belum ada pengajuan' : 'Tidak ada pengajuan dengan status ini',
+      activeStatusFilter === 'all' ? 'Apply ke open collab atau lowongan untuk mulai melacak statusmu' : 'Coba pilih filter lain'
+    );
+    return;
+  }
+  document.getElementById('statusList').innerHTML = filtered.map(a => {
+    const s = statusMap[a.status] || statusMap.review;
+    return `<div class="application-row">
+      <div class="app-icon">${a.brand.charAt(0)}</div>
+      <div class="app-info">
+        <div class="app-title">${a.title}</div>
+        <div class="app-brand">${a.brand} &middot; ${a.type} &middot; ${fmtTime(a.appliedAt)}</div>
+      </div>
+      <span class="status-pill ${s.cls}">${s.label}</span>
+    </div>`;
+  }).join('');
+}
+
+function filterStatus(status, el) {
+  activeStatusFilter = status;
+  document.querySelectorAll('#statusFilterRow .status-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (!CU || CU.role !== 'creator') return;
+  const jApps = db.get('cmk_japps_' + CU.id) || [];
+  const cApps = db.get('cmk_capps_' + CU.id) || [];
+  const all = [
+    ...jApps.map(a => ({ title:a.jobTitle, brand:a.brand, status:a.status||'review', type:'Lowongan Berbayar', appliedAt:a.appliedAt })),
+    ...cApps.map(a => ({ title:a.title,    brand:a.brand, status:a.status||'review', type:'Open Collab',       appliedAt:a.appliedAt }))
+  ];
+  renderStatusList(all);
+}
+
+// ===== PROFILE =====
+function updateProfileUI() {
+  if (!CU) return;
+  document.getElementById('profileName').textContent = CU.name;
+  document.getElementById('profileRole').textContent = CU.role === 'brand' ? 'Brand / Bisnis' : 'Konten Kreator';
+  document.getElementById('pEmail').textContent  = CU.email;
+  document.getElementById('pSince').textContent  = CU.createdAt || '-';
+  document.getElementById('pCity').textContent      = CU.city      || 'Belum diisi';
+  document.getElementById('pNiche').textContent     = CU.niche     || 'Belum diisi';
+  document.getElementById('pFollowers').textContent = CU.followers ? Number(CU.followers).toLocaleString('id') : '0';
+  document.getElementById('pIG').textContent        = CU.ig        || '-';
+  document.getElementById('pTT').textContent        = CU.tt        || '-';
+  document.getElementById('pBrandName').textContent   = CU.brandName || CU.name;
+  document.getElementById('pBrandCat').textContent    = CU.brandCat  || '-';
+  document.getElementById('pBrandCity').textContent   = CU.brandCity || '-';
+  document.getElementById('pBrandIG').textContent     = CU.brandIG   || '-';
+  document.getElementById('pBrandTT').textContent     = CU.brandTT   || '-';
+  document.getElementById('pBrandWeb').textContent    = CU.brandWeb  || '-';
+  document.getElementById('pBrandStatus').textContent = CU.hasPremium ? 'Iklan Aktif (Premium)' : 'Belum ada iklan aktif';
+
+  // Update foto profil di halaman profil
+  const avEl = document.getElementById('profileAv');
+  if (CU.photo) {
+    avEl.innerHTML = `<img src="${CU.photo}" alt="foto profil">`;
+  } else {
+    avEl.innerHTML = CU.name.charAt(0).toUpperCase();
+  }
+  updateNavAvatar();
+}
+
+function openEdit() {
+  document.getElementById('editBio').value       = CU.bio       || '';
+  document.getElementById('editNiche').value     = CU.niche     || '';
+  document.getElementById('editCity').value      = CU.city      || '';
+  document.getElementById('editIG').value        = CU.ig        || '';
+  document.getElementById('editTT').value        = CU.tt        || '';
+  document.getElementById('editFollowers').value = CU.followers || '';
+  document.getElementById('editOverlay').classList.add('show');
+}
+function closeEdit() { document.getElementById('editOverlay').classList.remove('show'); }
+function saveProfile() {
+  CU.bio       = document.getElementById('editBio').value;
+  CU.niche     = document.getElementById('editNiche').value;
+  CU.city      = document.getElementById('editCity').value;
+  CU.ig        = document.getElementById('editIG').value;
+  CU.tt        = document.getElementById('editTT').value;
+  CU.followers = parseInt(document.getElementById('editFollowers').value) || 0;
+  persistUser();
+  closeEdit();
+  toast('Profil berhasil disimpan');
+  updateProfileUI();
+}
+
+function openEditBrand() {
+  document.getElementById('editBrandName').value = CU.brandName || CU.name;
+  document.getElementById('editBrandCat').value  = CU.brandCat  || '';
+  document.getElementById('editBrandCity').value = CU.brandCity || '';
+  document.getElementById('editBrandIG').value   = CU.brandIG   || '';
+  document.getElementById('editBrandTT').value   = CU.brandTT   || '';
+  document.getElementById('editBrandWeb').value  = CU.brandWeb  || '';
+  document.getElementById('editBrandOverlay').classList.add('show');
+}
+function closeEditBrand() { document.getElementById('editBrandOverlay').classList.remove('show'); }
+function saveBrandProfile() {
+  CU.brandName = document.getElementById('editBrandName').value;
+  CU.brandCat  = document.getElementById('editBrandCat').value;
+  CU.brandCity = document.getElementById('editBrandCity').value;
+  CU.brandIG   = document.getElementById('editBrandIG').value;
+  CU.brandTT   = document.getElementById('editBrandTT').value;
+  CU.brandWeb  = document.getElementById('editBrandWeb').value;
+  persistUser();
+  closeEditBrand();
+  toast('Profil brand berhasil disimpan');
+  updateProfileUI();
+}
+
+function persistUser() {
+  const users = db.get('cmk_users') || [];
+  const idx = users.findIndex(u => u.id === CU.id);
+  if (idx !== -1) { users[idx] = CU; db.set('cmk_users', users); }
+}
+
+// ===== EDIT FOTO PROFIL (BARU) =====
+function openEditPhoto() {
+  pendingPhotoDataUrl = null;
+  const circle = document.getElementById('photoPreviewCircle');
+  if (CU.photo) {
+    circle.innerHTML = `<img src="${CU.photo}" alt="foto">`;
+  } else {
+    circle.innerHTML = CU.name.charAt(0).toUpperCase();
+  }
+  const btnSave = document.getElementById('btnSavePhoto');
+  btnSave.disabled = true;
+  btnSave.style.opacity = '0.5';
+  document.getElementById('btnRemovePhoto').style.display = CU.photo ? 'block' : 'none';
+  document.getElementById('editPhotoOverlay').classList.add('show');
+}
+
+function closeEditPhoto() {
+  document.getElementById('editPhotoOverlay').classList.remove('show');
+  pendingPhotoDataUrl = null;
+  // Reset file input agar bisa pilih file yang sama lagi
+  document.getElementById('photoFileInput').value = '';
+}
+
+function onPhotoSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    toast('Ukuran file maks. 5 MB');
+    document.getElementById('photoFileInput').value = '';
+    return;
+  }
+  if (!file.type.startsWith('image/')) {
+    toast('Format file harus gambar (JPG/PNG)');
+    document.getElementById('photoFileInput').value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    pendingPhotoDataUrl = e.target.result;
+    const circle = document.getElementById('photoPreviewCircle');
+    circle.innerHTML = `<img src="${pendingPhotoDataUrl}" alt="preview">`;
+    const btnSave = document.getElementById('btnSavePhoto');
+    btnSave.disabled = false;
+    btnSave.style.opacity = '1';
+  };
+  reader.readAsDataURL(file);
+}
+
+function savePhoto() {
+  if (!pendingPhotoDataUrl) return;
+  CU.photo = pendingPhotoDataUrl;
+  persistUser();
+  closeEditPhoto();
+  toast('Foto profil berhasil diperbarui');
+  updateProfileUI();
+}
+
+function removePhoto() {
+  CU.photo = null;
+  persistUser();
+  closeEditPhoto();
+  toast('Foto profil dihapus');
+  updateProfileUI();
+}
+
+// ===== EDIT NAMA AKUN (BARU) =====
+// Batas: 2x per 60 hari
+const NAME_LIMIT = 2;
+const NAME_PERIOD_DAYS = 60;
+
+function getNameChangesInPeriod() {
+  if (!CU.nameChangeLog) CU.nameChangeLog = [];
+  const now = Date.now();
+  const periodMs = NAME_PERIOD_DAYS * 24 * 60 * 60 * 1000;
+  return CU.nameChangeLog.filter(entry => {
+    return (now - new Date(entry.changedAt).getTime()) < periodMs;
+  });
+}
+
+function openEditName() {
+  if (!CU.nameChangeLog) CU.nameChangeLog = [];
+  const recentChanges = getNameChangesInPeriod();
+  const used = recentChanges.length;
+  const remaining = NAME_LIMIT - used;
+
+  const infoEl = document.getElementById('nameEditInfo');
+  const btnSave = document.getElementById('btnSaveName');
+  const input   = document.getElementById('editNameInput');
+
+  input.value = CU.name;
+
+  if (remaining <= 0) {
+    // Hitung kapan slot pertama tersedia lagi
+    const oldest = recentChanges.sort((a,b) => new Date(a.changedAt) - new Date(b.changedAt))[0];
+    const unlockDate = new Date(new Date(oldest.changedAt).getTime() + NAME_PERIOD_DAYS * 24 * 60 * 60 * 1000);
+    const unlockStr  = unlockDate.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    infoEl.innerHTML = `
+      Nama akun hanya bisa diubah <strong>${NAME_LIMIT}x setiap ${NAME_PERIOD_DAYS} hari</strong>.<br>
+      Kamu sudah menggunakan semua jatah perubahan nama.<br>
+      <span class="name-limit-badge full">Tersedia lagi: ${unlockStr}</span>
+    `;
+    input.disabled = true;
+    btnSave.disabled = true;
+    btnSave.style.opacity = '0.5';
+  } else {
+    infoEl.innerHTML = `
+      Nama akun hanya bisa diubah <strong>${NAME_LIMIT}x setiap ${NAME_PERIOD_DAYS} hari</strong>.<br>
+      <span class="name-limit-badge ${remaining === 1 ? 'warn' : ''}">Sisa kesempatan: ${remaining}x</span>
+    `;
+    input.disabled = false;
+    btnSave.disabled = false;
+    btnSave.style.opacity = '1';
+  }
+
+  document.getElementById('editNameOverlay').classList.add('show');
+}
+
+function closeEditName() {
+  document.getElementById('editNameOverlay').classList.remove('show');
+}
+
+function saveName() {
+  const newName = document.getElementById('editNameInput').value.trim();
+  if (!newName) return toast('Nama tidak boleh kosong');
+  if (newName === CU.name) { closeEditName(); return; }
+  if (newName.length < 2)  return toast('Nama minimal 2 karakter');
+
+  const recentChanges = getNameChangesInPeriod();
+  if (recentChanges.length >= NAME_LIMIT) {
+    return toast('Jatah ubah nama sudah habis untuk periode ini');
+  }
+
+  if (!CU.nameChangeLog) CU.nameChangeLog = [];
+  CU.nameChangeLog.push({ changedAt: new Date().toISOString(), from: CU.name, to: newName });
+  CU.name = newName;
+  persistUser();
+  closeEditName();
+  toast('Nama akun berhasil diperbarui');
+  updateProfileUI();
+  setupRole(); // update inisial avatar di nav
+}
+
+// ===== POST JOB =====
+function openPostJob()  { document.getElementById('postJobOverlay').classList.add('show'); }
+function closePostJob() { document.getElementById('postJobOverlay').classList.remove('show'); }
+
+function submitPost() {
+  const title    = document.getElementById('jobTitle').value.trim();
+  const desc     = document.getElementById('jobDesc').value.trim();
+  const niche    = document.getElementById('jobNiche').value;
+  const location = document.getElementById('jobLocation').value.trim();
+  const budget   = parseInt(document.getElementById('jobBudget').value);
+  const cat      = document.getElementById('jobCategory').value;
+  if (!title || !desc || !location || !budget) return toast('Lengkapi semua field');
+  pendingJob = { title, desc, niche, location, budget, cat };
+  closePostJob();
+  document.getElementById('payOverlay').classList.add('show');
+}
+
+// ===== PAYMENT =====
+function selPay(el, method) {
+  document.querySelectorAll('.pay-opt').forEach(e => e.classList.remove('sel'));
+  el.classList.add('sel');
+  const info = {
+    transfer: '<p>Transfer ke BCA atas nama <strong>PT Collab Match Creator</strong></p><div class="bank-num">1234 5678 90</div><div class="bank-note">Nominal tepat Rp 99.000 — konfirmasi otomatis 1x24 jam</div>',
+    qris:     '<p>Scan QRIS berikut:</p><div class="bank-num" style="font-size:14px">QRIS tersedia di aplikasi mobile</div><div class="bank-note">Berlaku 15 menit</div>',
+    dana:     '<p>Transfer ke DANA</p><div class="bank-num">0812-3456-7890</div><div class="bank-note">a/n Collab Match Creator</div>',
+    gopay:    '<p>Transfer ke GoPay</p><div class="bank-num">0812-3456-7890</div><div class="bank-note">a/n Collab Match Creator</div>',
+  };
+  document.getElementById('bankBox').innerHTML = info[method] || info.transfer;
+}
+
+function confirmPay() {
+  CU.hasPremium = true;
+  if (pendingJob) {
+    const jobs = db.get('cmk_jobs') || [];
+    jobs.push({
+      id:'j'+Date.now(), brand: CU.brandName || CU.name, cat:pendingJob.cat,
+      title:pendingJob.title, desc:pendingJob.desc, niche:pendingJob.niche,
+      location:pendingJob.location, budget:pendingJob.budget,
+      deadline:14, premium:true, brandUserId:CU.id, applicants:[],
+      postedAt:new Date().toISOString()
+    });
+    db.set('cmk_jobs', jobs);
+    pendingJob = null;
+  }
+  persistUser();
+  closePayOverlay();
+  toast('Pembayaran dikonfirmasi. Iklan aktif 14 hari!');
+  setTimeout(() => buildDash(), 300);
+}
+function closePayOverlay() { document.getElementById('payOverlay').classList.remove('show'); pendingJob = null; }
+
+// ===== HELPERS =====
+function fmt(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(0) + ' jt';
+  if (n >= 1000)    return (n/1000).toFixed(0) + ' rb';
+  return n;
+}
+function fmtTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso), now = new Date(), diff = (now - d) / 1000;
+  if (diff < 60)    return 'Baru saja';
+  if (diff < 3600)  return Math.floor(diff/60) + ' mnt';
+  if (diff < 86400) return Math.floor(diff/3600) + ' jam';
+  return d.toLocaleDateString('id-ID', {day:'numeric',month:'short'});
+}
+function emptyState(title, sub) {
+  return `<div class="empty-state"><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
+}
+function toast(msg) {
+  const wrap = document.getElementById('toastWrap');
+  const el   = document.createElement('div');
+  el.className = 'toast-item';
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+// Close overlays on outside click
+['payOverlay','editOverlay','editBrandOverlay','postJobOverlay','editPhotoOverlay','editNameOverlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) {
+      if      (id === 'payOverlay')        closePayOverlay();
+      else if (id === 'editOverlay')       closeEdit();
+      else if (id === 'editBrandOverlay')  closeEditBrand();
+      else if (id === 'editPhotoOverlay')  closeEditPhoto();
+      else if (id === 'editNameOverlay')   closeEditName();
+      else    closePostJob();
+    }
+  });
+});
+</script>
+</body>
+</html>
